@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:t="clr-namespace:UpService.TriggersAction"
+             xmlns:vm="clr-namespace:UpService.ViewModels"
+             x:Class="UpService.Views.Cadastro">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Entry" x:Key="DefaultEntry">
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="PlaceholderColor" Value="{DynamicResource AccentColor}"/>
+                <Setter Property="TextColor" Value="{DynamicResource PrimaryDarkColor}"/>
+                <Setter Property="FontSize" Value="Medium"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.BindingContext>
+        <vm:CadastroViewModel/>
+    </ContentPage.BindingContext>
+    <ScrollView Padding="24">
+        <StackLayout 
+            VerticalOptions="Center">
+            <Label 
+                FontSize="Title"
+                FontAttributes="Bold"
+                Margin="0,0,0,32"
+                TextColor="{DynamicResource PrimaryDarkColor}"
+                HorizontalOptions="CenterAndExpand"
+                Text="UpService"/>
+            <Label 
+                FontSize="Large"
+                Text="{Binding Title}"
+                TextColor="{DynamicResource PrimaryDarkColor}"
+                HorizontalOptions="CenterAndExpand"/>
+            <ActivityIndicator 
+                    Color="{DynamicResource PrimaryColor}"
+                    IsRunning="{Binding ActInd_IsRunning}"/>
+            <StackLayout 
+                Orientation="Horizontal">
+                <Entry 
+                    Text="{Binding Nome}"
+                    Placeholder="Nome" 
+                    Style="{StaticResource DefaultEntry}"/>
+                <Entry 
+                    Text="{Binding Sobrenome}"
+                    Placeholder="Sobrenome" 
+                    Style="{StaticResource DefaultEntry}"/>
+            </StackLayout>
+            <Entry 
+                Text="{Binding CPF}"
+                Placeholder="CPF" 
+                MaxLength="11"
+                Keyboard="Numeric"
+                Style="{StaticResource DefaultEntry}">
+                <Entry.Triggers>
+                    <EventTrigger Event="TextChanged">
+                        <t:CPFValidationTriggerAction/>
+                    </EventTrigger>
+                </Entry.Triggers>
+            </Entry>
+            <Entry 
+                Text="{Binding Email}"
+                Placeholder="Email" 
+                Style="{StaticResource DefaultEntry}">
+                <Entry.Triggers>
+                    <EventTrigger Event="TextChanged">
+                        <t:EmailValidationTriggerAction/>
+                    </EventTrigger>
+                </Entry.Triggers>
+            </Entry>
+            <StackLayout 
+                Orientation="Horizontal">
+                <Entry 
+                    Text="{Binding CEP}"
+                    Placeholder="CEP" 
+                    MaxLength="8"
+                    Keyboard="Numeric"
+                    Style="{StaticResource DefaultEntry}">
+                    <Entry.Triggers>
+                        <EventTrigger Event="TextChanged">
+                            <t:CEPValidationTriggerAction/>
+                        </EventTrigger>
+                    </Entry.Triggers>
+                </Entry>
+                <Entry 
+                    Text="{Binding Cidade}"
+                    Placeholder="Cidade" 
+                    Style="{StaticResource DefaultEntry}"/>
+            </StackLayout>
+            <Entry 
+                Text="{Binding Endereco}"
+                Placeholder="Endereço" 
+                Style="{StaticResource DefaultEntry}"/>
+            <StackLayout Orientation="Horizontal">
+                <Entry 
+                    Text="{Binding Estado}"
+                    Placeholder="Estado" 
+                    Style="{StaticResource DefaultEntry}"/>
+                <Entry 
+                    Text="{Binding Numero}"
+                    Placeholder="Número" 
+                    Style="{StaticResource DefaultEntry}"/>
+            </StackLayout>
+            <StackLayout 
+                Orientation="Horizontal">
+                <Entry 
+                    Text="{Binding Senha}"
+                    IsPassword="{Binding IsPassword}"
+                    Style="{StaticResource DefaultEntry}"
+                    Margin="0,0,8,0"
+                    Placeholder="Senha"/>
+                <ImageButton 
+                    Command="{Binding SetIsPassword}"
+                    HorizontalOptions="End"
+                    Source="set_is_password.png"
+                    BackgroundColor="Transparent"
+                    WidthRequest="32"
+                    HeightRequest="1"/>
+            </StackLayout>
+            <StackLayout 
+                HorizontalOptions="Center"
+                Orientation="Horizontal">
+                <Label 
+                    VerticalOptions="Center"
+                    Text="Prestador de Serviço" 
+                    TextColor="{DynamicResource PrimaryDarkColor}"/>
+                <CheckBox 
+                    IsChecked="{Binding IsPrestador}"
+                    Color="{DynamicResource PrimaryDarkColor}"/>
+            </StackLayout>
+            <Button 
+                Text="Cadastrar"
+                TextColor="White"
+                Margin="16"
+                BackgroundColor="{DynamicResource PrimaryColor}"
+                HorizontalOptions="Center"/>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

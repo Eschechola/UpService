@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:UpService.ViewModels"
+             mc:Ignorable="d"
+             x:Class="UpService.Views.Login">
+    <ContentPage.BindingContext>
+        <vm:LoginViewModel/>
+    </ContentPage.BindingContext>
+    <ScrollView Padding="24">
+        <StackLayout 
+            VerticalOptions="Center">
+            <Label 
+                FontSize="Title"
+                FontAttributes="Bold"
+                Margin="0,0,0,32"
+                TextColor="{DynamicResource PrimaryColor}"
+                HorizontalOptions="CenterAndExpand"
+                Text="UpService"/>
+            <Label 
+                FontSize="Large"
+                TextColor="{DynamicResource PrimaryColor}"
+                HorizontalOptions="CenterAndExpand"
+                Text="LOGIN"/>
+            <ActivityIndicator
+                Color="{DynamicResource PrimaryDarkColor}"
+                IsRunning="{Binding ActInd_IsRunning}"/>
+            <Label 
+                TextColor="{DynamicResource PrimaryColor}"
+                Margin="24,0,0,0"
+                FontSize="Medium"
+                Text="CPF"/>
+            <Entry 
+                Text="{Binding CPF}"
+                PlaceholderColor="{DynamicResource AccentColor}"
+                TextColor="{DynamicResource PrimaryColor}"
+                MaxLength="8"
+                FontSize="Medium"
+                Keyboard="Numeric"
+                Placeholder="CPF"/>
+            <Label 
+                TextColor="{DynamicResource PrimaryColor}"
+                Margin="24,0,0,0"
+                FontSize="Medium"
+                Text="Senha"/>
+            <StackLayout 
+                Orientation="Horizontal">
+                <Entry 
+                    Text="{Binding Senha}"
+                    PlaceholderColor="{DynamicResource AccentColor}"
+                    TextColor="{DynamicResource PrimaryColor}"
+                    IsPassword="{Binding IsPassword}"
+                    FontSize="Medium"
+                    HorizontalOptions="FillAndExpand"
+                    Margin="0,0,8,0"
+                    Placeholder="Senha"/>
+                <ImageButton 
+                    Command="{Binding SetIsPassword}"
+                    HorizontalOptions="End"
+                    Source="set_is_password.png"
+                    BackgroundColor="Transparent"
+                    WidthRequest="32"
+                    HeightRequest="1"/>
+            </StackLayout>
+            <StackLayout 
+                Orientation="Horizontal"
+                HorizontalOptions="Center">
+                <Label 
+                    FontSize="Body"
+                    VerticalOptions="Center"
+                    TextColor="{DynamicResource PrimaryColor}"
+                    Text="Lembrar senha?"/>
+                <CheckBox 
+                    IsChecked="{Binding LembrarSenha}"
+                    Color="{DynamicResource PrimaryColor}"/>
+            </StackLayout>
+            <StackLayout 
+                Margin="0,16,0,0"
+                HorizontalOptions="Center"
+                Orientation="Horizontal">
+                <Button 
+                    Text="Entrar"
+                    TextColor="White"
+                    Command="{Binding GoTo_MainPage}"
+                    BackgroundColor="{DynamicResource PrimaryDarkColor}"
+                    HorizontalOptions="Center"/>
+                <Label 
+                    Text="OU"
+                    Margin="16,0,16,0"
+                    TextColor="{DynamicResource PrimaryColor}"
+                    VerticalOptions="Center"/>
+                <Button 
+                    Text="Cadastre-se"
+                    TextColor="White"
+                    Command="{Binding GoTo_Cadastro}"
+                    BackgroundColor="{DynamicResource PrimaryDarkColor}"
+                    HorizontalOptions="Center"/>
+            </StackLayout>
+            
+        </StackLayout>
+    </ScrollView>
+</ContentPage>
