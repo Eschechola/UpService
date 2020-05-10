@@ -7,9 +7,15 @@ namespace UpServiceAPI.Infra.DAO
     public class DBConnection : IMySqlConnection
     {
         private readonly IConfiguration _configuration;
+        private readonly string _connectionString;
 
         public DBConnection()
         {}
+
+        public DBConnection(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
 
         public DBConnection(IConfiguration configuration)
         {
@@ -18,7 +24,10 @@ namespace UpServiceAPI.Infra.DAO
 
         public MySqlConnection GetConnection()
         {
-            return new MySqlConnection(_configuration["ConnectionString"]);
+            return !string.IsNullOrEmpty(_connectionString) ?
+                new MySqlConnection(_connectionString)
+                : 
+                new MySqlConnection(_configuration["ConnectionString"]);
         }
 
         public MySqlConnection GetConnection(string connectionString)

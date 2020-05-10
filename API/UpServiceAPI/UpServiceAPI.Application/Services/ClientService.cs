@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using System.Collections.Generic;
 using UpServiceAPI.Infra.Entities;
 using UpServiceAPI.Infra.Interfaces;
 
@@ -26,6 +27,14 @@ namespace UpServiceAPI.Application.Services
             return GetByCpf(client.CPF);
         }
 
+        public Client Update(Client client)
+        {
+            //insere o cliente e retorna de acordo com o CPF
+            _clientRepository.Update(client);
+
+            return GetByCpf(client.CPF);
+        }
+
         public Client Get(int id)
         {
             return _clientRepository.Get(id);
@@ -38,7 +47,12 @@ namespace UpServiceAPI.Application.Services
 
         public Client GetByEmail(string email)
         {
-            return _clientRepository.GetByEmail(email);
+            return _clientRepository.GetByEmail(email.ToLower());
+        }
+
+        public IList<Client> GetAllByEmail(string email)
+        {
+            return _clientRepository.GetAllByEmail(email);
         }
 
     }

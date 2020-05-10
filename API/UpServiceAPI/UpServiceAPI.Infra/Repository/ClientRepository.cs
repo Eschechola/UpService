@@ -1,9 +1,9 @@
 ﻿using Dapper;
 using MySql.Data.MySqlClient;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using UpServiceAPI.Infra.DAO;
 using UpServiceAPI.Infra.Entities;
 using UpServiceAPI.Infra.Interfaces;
 
@@ -25,7 +25,6 @@ namespace UpServiceAPI.Infra.Repository
                             SELECT
                             
                             id Id,
-                            fk_id_address FkIdAddress,
                             client_name Name,
                             client_password Password,
                             client_email Email,
@@ -90,6 +89,62 @@ namespace UpServiceAPI.Infra.Repository
             _connection.Query(query, parameters);
         }
 
+        public void Update(Client client)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@Name", client.Name);
+            parameters.Add("@CPF", client.CPF);
+            parameters.Add("@Password", client.Password);
+            parameters.Add("@Email", client.Email);
+            parameters.Add("@Telephone", client.Telephone);
+            parameters.Add("@Country", client.Country);
+            parameters.Add("@State", client.State);
+            parameters.Add("@City", client.City);
+            parameters.Add("@ZipCode", client.ZipCode);
+            parameters.Add("@Street", client.Street);
+            parameters.Add("@HomeNumber", client.HomeNumber);
+
+            var query = @"
+                            UPDATE up_client
+                            SET
+                            
+                            client_name = @Name,
+                            client_email = @Email,
+                            client_password = @Password,
+                            client_telephone = @Telephone,
+                            client_country = @Country,
+                            client_state = @State,
+                            client_city = @City,
+                            client_zip_code = @ZipCode,
+                            client_street = @Street,
+                            client_home_number = @HomeNumber
+
+                            WHERE 
+                            client_cpf = @CPF
+                        ";
+
+            _connection.Query(query, parameters);
+        }
+
+        public IList<Client> GetAllByEmail(string email)
+        {
+            var query = @"
+                            SELECT 
+                            
+                            id Id,
+                            client_email @email
+
+                            FROM up_client
+
+
+                            WHERE 
+                            client_email = @email
+                        ";
+
+            return _connection.Query<Client>(query, new { email })
+                .ToList();
+        }
+
 
         public Client GetByCPF(string cpf)
         {
@@ -141,7 +196,7 @@ namespace UpServiceAPI.Infra.Repository
                             client_home_number HomeNumber
                             
                             FROM up_client
-                            WHERE client_email = @email
+                            WHERE LOWER(client_email) = @email
                         ";
 
 

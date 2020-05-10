@@ -1,4 +1,6 @@
+using System;
 using AutoMapper;
+using ESCHENet.Emails.Functions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -6,15 +8,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.Swagger;
-using System;
 using UpService.UI.StatusCode;
+using UpServiceAPI.Application.DTO;
 using UpServiceAPI.Application.Services;
 using UpServiceAPI.Infra.DAO;
-using UpServiceAPI.Infra.DTO;
 using UpServiceAPI.Infra.Entities;
 using UpServiceAPI.Infra.Interfaces;
 using UpServiceAPI.Infra.Repository;
+using UpServiceAPI.Services.DTO;
 
 namespace UpService.UI
 {
@@ -44,6 +45,8 @@ namespace UpService.UI
 
             services.AddTransient<IJobService, JobService>();
 
+            services.AddSingleton<IEmailService, EmailService>();
+
             #endregion
 
 
@@ -72,22 +75,42 @@ namespace UpService.UI
 
                 cfg.CreateMap<JobDTO, Job>();
                 cfg.CreateMap<Job, JobDTO>();
+
+                cfg.CreateMap<JobOffer, JobOfferDTO>();
+                cfg.CreateMap<JobOfferDTO, JobOffer>();
             });
 
             services.AddSingleton(autoMapperConfig.CreateMapper());
 
             #endregion
 
+
+            #region Swagger Config
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {
-                    Description = "UpService API v1",
                     Title = "UpService",
                     Version = "v1",
-                    Contact = new OpenApiContact { },
+                    Description = "API do aplicativo UpService!",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Up Service Developers",
+                        Email = "lucas.eschechola@outlook.com",
+                        Url = new Uri("https://eschechola.com.br")
+                    },
                 });
             });
 
+            #endregion
+
+
+            #region CrossCutting DI
+
+            services.AddSingleton<EmailSender>(new EmailSender(Configuration["Support:Email"], Configuration["Support:Password"]));
+
+            #endregion
+            
             services.AddControllers();
         }
 
@@ -100,7 +123,6 @@ namespace UpService.UI
 
             // Ativando middlewares para uso do Swagger
             app.UseSwagger();
-
             app.UseSwaggerUI(c => {
                 c.SwaggerEndpoint("../swagger/v1/swagger.json", "UpService API v1.0");
             });

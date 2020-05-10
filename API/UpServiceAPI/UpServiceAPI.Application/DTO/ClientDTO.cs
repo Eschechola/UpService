@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using UpServiceAPI.Infra.Entities;
-
-namespace UpServiceAPI.Infra.DTO
+﻿namespace UpServiceAPI.Services.DTO
 {
     public class ClientDTO
     {
@@ -23,28 +20,5 @@ namespace UpServiceAPI.Infra.DTO
         public int HomeNumber { get; set; }
 
         #endregion
-
-
-
-        #region Job Requester Properties
-
-        public IList<Job> AllRequestedJobs { get; set; }
-        public IList<Job> PublishedJobs { get; set; }
-        public IList<Job> InProgressJobs { get; set; }
-        public IList<Job> FinishedJobs { get; set; }
-
-        #endregion
-
-
-
-        #region Job Provider Properties
-
-        public IList<Job> AllMyJobs { get; set; }
-        public IList<Job> MyJobsInProgress { get; set; }
-        public IList<Job> MyFinishedJobs { get; set; }
-
-        #endregion
-
-
     }
 }

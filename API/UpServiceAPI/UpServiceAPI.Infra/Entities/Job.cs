@@ -10,13 +10,13 @@ namespace UpServiceAPI.Infra.Entities
 
         public int Id { get; set; }
         public int FkIdClientJobRequester { get; set; }
-        public int FkIdClientJobProvider { get; set; }
+        public int? FkIdClientJobProvider { get; set; }
         public string Hash { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public DateTime PublicationDate { get; set; }
-        public DateTime ConclusionDate { get; set; }
-        public double MaxValue { get; set; }
+        public DateTime? ConclusionDate { get; set; }
+        public double JobMaxValue { get; set; }
         public string State { get; set; }
 
         #endregion
@@ -66,15 +66,18 @@ namespace UpServiceAPI.Infra.Entities
 
 
 
-            RuleFor(v => v.MaxValue)
+            RuleFor(v => v.JobMaxValue)
                 .NotEmpty()
                 .WithMessage("O valor máximo deve ser informado.")
 
-                .LessThan(30)
-                .WithMessage("O serviço deve ter um valor mínimo de R$30,00 (trinta reais).")
-
-                .GreaterThan(12000)
-                .WithMessage("O serviço deve ter um valor máximo de R$12.000,00 (doze mil reais).");
+                .Must(v =>
+                {
+                    if (v > 30 || v < 12000)
+                        return true;
+                    else
+                        return false;
+                })
+                .WithMessage("O valor do serviço deve ser entre R$30,00 e R$12.000,00.");
         }
 
         #endregion
