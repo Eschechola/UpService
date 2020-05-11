@@ -1,18 +1,17 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<MasterDetailPage 
-    xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:vm="clr-namespace:UpService.ViewModels"
-    xmlns:m="clr-namespace:UpService.Models"
-    mc:Ignorable="d"
-    x:Class="UpService.Views.Home">
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:UpService.ViewModels"
+             mc:Ignorable="d"
+             x:Class="UpService.Views.HomePrestador">
     <MasterDetailPage.BindingContext>
-        <vm:HomeViewModel/>
+        <vm:HomePrestadorViewModel/>
     </MasterDetailPage.BindingContext>
+
     <MasterDetailPage.Master>
-        <ContentPage Title="Home">
+        <ContentPage Title="HomePrestador">
             <Grid BackgroundColor="LightGray">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
@@ -70,13 +69,6 @@
     </MasterDetailPage.Master>
     <MasterDetailPage.Detail>
         <ContentPage>
-            <ContentPage.ToolbarItems>
-                <ToolbarItem 
-                    Text="Adicionar serviço"
-                    IconImageSource="ic_action_add_job.png"
-                    Command="{Binding AddNewJob}"
-                    Order="Primary"/>
-            </ContentPage.ToolbarItems>
             <StackLayout>
                 <RefreshView
                         RefreshColor="{DynamicResource PrimaryDarkColor}"
@@ -84,18 +76,9 @@
                         Command="{Binding RefreshCommand}">
                     <CollectionView 
                         SelectionMode="Single"
-                        ItemsSource="{Binding EmAberto}"
+                        ItemsSource="{Binding Finalizados}"
                         SelectedItem="{Binding SelectedItem}"
                         SelectionChangedCommand="{Binding SelectedItemChanged}">
-                        <CollectionView.EmptyView>
-                            <Label 
-                                FontSize="Large"
-                                HorizontalTextAlignment="Center"
-                                VerticalTextAlignment="Center"
-                                VerticalOptions="CenterAndExpand"
-                                HorizontalOptions="CenterAndExpand"
-                                Text="Não há serviços em Aberto ou em Progresso"/>
-                        </CollectionView.EmptyView>
                         <CollectionView.ItemsLayout>
                             <GridItemsLayout 
                                 Orientation="Vertical" 

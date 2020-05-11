@@ -9,7 +9,7 @@ namespace UpService.TriggersAction
         {
             bool Valido;
             Valido = Validates.IsEmail(sender.Text);
-            sender.TextColor = Valido ? Color.FromHex("#17569B") : Color.Red;
+            sender.TextColor = Valido ? Color.FromHex("#002e6c") : Color.Red;
         }
     }
 }

@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:UpService.ViewModels"
+             mc:Ignorable="d"
+             Title="Detalhes"
+             x:Class="UpService.Views.JobDetalhe">
+    <ContentPage.BindingContext>
+        <vm:JobDetalheViewModel/>
+    </ContentPage.BindingContext>
+    <ScrollView Padding="24">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Label 
+                Text="{Binding JobInDetail.Title}"
+                FontSize="Medium"
+                FontAttributes="Bold"
+                TextColor="{DynamicResource PrimaryDarkColor}"
+                Grid.Row="0"
+                Grid.Column="0"
+                Grid.ColumnSpan="5"/>
+            <Label 
+                Text="{Binding JobInDetail.PublicationDate, StringFormat='{0:dd/MM/yyyy}'}"
+                FontSize="Small"
+                HorizontalOptions="End"
+                TextColor="{DynamicResource PrimaryColor}"
+                Grid.Row="0"
+                Grid.Column="7"
+                Grid.ColumnSpan="3"/>
+            <BoxView
+                Grid.Row="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="10"
+                BackgroundColor="{DynamicResource PrimaryDarkColor}"
+                HeightRequest="1"/>
+            <Label
+                TextColor="{DynamicResource PrimaryDarkColor}"
+                Grid.Row="2"
+                Grid.RowSpan="3"
+                Grid.Column="0"
+                Grid.ColumnSpan="10">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <FormattedString.Spans>
+                            <Span 
+                                FontSize="Default"
+                                FontAttributes="Bold" 
+                                Text="Descrição: " />
+                            <Span 
+                                FontSize="Default"
+                                TextColor="{DynamicResource PrimaryColor}"
+                                Text="{Binding JobInDetail.Description}" />
+                        </FormattedString.Spans>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+
+            <Label 
+                TextColor="{DynamicResource PrimaryDarkColor}"
+                Grid.Row="5"
+                FontSize="Medium"
+                Grid.Column="0"
+                Grid.ColumnSpan="6">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <FormattedString.Spans>
+                            <Span 
+                                Text="Valor máximo: "/>
+                            <Span Text="R$ " 
+                                  FontAttributes="Bold"/>
+                            <Span 
+                                FontSize="Medium"
+                                FontAttributes="Bold"
+                                Text="12.000"/>
+                        </FormattedString.Spans>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Label 
+                Text="{Binding JobInDetail.State}"
+                FontSize="Medium"
+                TextColor="Orange"
+                HorizontalOptions="End"
+                FontAttributes="Bold"
+                Grid.Row="5"
+                Grid.Column="6"
+                Grid.ColumnSpan="4"/>
+        </Grid>
+    </ScrollView>
+</ContentPage>

@@ -9,39 +9,39 @@
     <ContentPage.BindingContext>
         <vm:LoginViewModel/>
     </ContentPage.BindingContext>
-    <ScrollView Padding="24">
+    <ScrollView 
+        Padding="24">
         <StackLayout 
             VerticalOptions="Center">
             <Label 
                 FontSize="Title"
                 FontAttributes="Bold"
                 Margin="0,0,0,32"
-                TextColor="{DynamicResource PrimaryColor}"
+                TextColor="{DynamicResource PrimaryDarkColor}"
                 HorizontalOptions="CenterAndExpand"
                 Text="UpService"/>
             <Label 
                 FontSize="Large"
-                TextColor="{DynamicResource PrimaryColor}"
+                TextColor="{DynamicResource PrimaryDarkColor}"
                 HorizontalOptions="CenterAndExpand"
                 Text="LOGIN"/>
             <ActivityIndicator
                 Color="{DynamicResource PrimaryDarkColor}"
                 IsRunning="{Binding ActInd_IsRunning}"/>
             <Label 
-                TextColor="{DynamicResource PrimaryColor}"
+                TextColor="{DynamicResource PrimaryDarkColor}"
                 Margin="24,0,0,0"
                 FontSize="Medium"
-                Text="CPF"/>
+                Text="CPF ou Email"/>
             <Entry 
-                Text="{Binding CPF}"
+                Text="{Binding CPF_ou_Email}"
                 PlaceholderColor="{DynamicResource AccentColor}"
-                TextColor="{DynamicResource PrimaryColor}"
-                MaxLength="8"
+                TextColor="{DynamicResource PrimaryDarkColor}"
                 FontSize="Medium"
                 Keyboard="Numeric"
-                Placeholder="CPF"/>
+                Placeholder="CPF ou Email"/>
             <Label 
-                TextColor="{DynamicResource PrimaryColor}"
+                TextColor="{DynamicResource PrimaryDarkColor}"
                 Margin="24,0,0,0"
                 FontSize="Medium"
                 Text="Senha"/>
@@ -50,7 +50,7 @@
                 <Entry 
                     Text="{Binding Senha}"
                     PlaceholderColor="{DynamicResource AccentColor}"
-                    TextColor="{DynamicResource PrimaryColor}"
+                    TextColor="{DynamicResource PrimaryDarkColor}"
                     IsPassword="{Binding IsPassword}"
                     FontSize="Medium"
                     HorizontalOptions="FillAndExpand"
@@ -70,11 +70,11 @@
                 <Label 
                     FontSize="Body"
                     VerticalOptions="Center"
-                    TextColor="{DynamicResource PrimaryColor}"
+                    TextColor="{DynamicResource PrimaryDarkColor}"
                     Text="Lembrar senha?"/>
                 <CheckBox 
                     IsChecked="{Binding LembrarSenha}"
-                    Color="{DynamicResource PrimaryColor}"/>
+                    Color="{DynamicResource PrimaryDarkColor}"/>
             </StackLayout>
             <StackLayout 
                 Margin="0,16,0,0"
@@ -84,7 +84,7 @@
                     Text="Entrar"
                     TextColor="White"
                     Command="{Binding GoTo_MainPage}"
-                    BackgroundColor="{DynamicResource PrimaryDarkColor}"
+                    BackgroundColor="{DynamicResource PrimaryColor}"
                     HorizontalOptions="Center"/>
                 <Label 
                     Text="OU"
@@ -95,7 +95,7 @@
                     Text="Cadastre-se"
                     TextColor="White"
                     Command="{Binding GoTo_Cadastro}"
-                    BackgroundColor="{DynamicResource PrimaryDarkColor}"
+                    BackgroundColor="{DynamicResource PrimaryColor}"
                     HorizontalOptions="Center"/>
             </StackLayout>
             

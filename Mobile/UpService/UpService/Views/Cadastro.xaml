@@ -4,6 +4,7 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
+             xmlns:b="clr-namespace:UpService.Behaviors"
              xmlns:t="clr-namespace:UpService.TriggersAction"
              xmlns:vm="clr-namespace:UpService.ViewModels"
              x:Class="UpService.Views.Cadastro">
@@ -13,6 +14,7 @@
                 <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
                 <Setter Property="PlaceholderColor" Value="{DynamicResource AccentColor}"/>
                 <Setter Property="TextColor" Value="{DynamicResource PrimaryDarkColor}"/>
+                <Setter Property="ReturnType" Value="Next"/>
                 <Setter Property="FontSize" Value="Medium"/>
             </Style>
         </ResourceDictionary>
@@ -21,39 +23,79 @@
         <vm:CadastroViewModel/>
     </ContentPage.BindingContext>
     <ScrollView Padding="24">
-        <StackLayout 
-            VerticalOptions="Center">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
             <Label 
                 FontSize="Title"
                 FontAttributes="Bold"
                 Margin="0,0,0,32"
+                Grid.Row="0"
+                Grid.Column="0"
+                Grid.ColumnSpan="10"
                 TextColor="{DynamicResource PrimaryDarkColor}"
                 HorizontalOptions="CenterAndExpand"
                 Text="UpService"/>
             <Label 
                 FontSize="Large"
-                Text="{Binding Title}"
+                Text="CADASTRO"
+                Grid.Row="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="10"
                 TextColor="{DynamicResource PrimaryDarkColor}"
                 HorizontalOptions="CenterAndExpand"/>
             <ActivityIndicator 
-                    Color="{DynamicResource PrimaryColor}"
-                    IsRunning="{Binding ActInd_IsRunning}"/>
-            <StackLayout 
-                Orientation="Horizontal">
-                <Entry 
-                    Text="{Binding Nome}"
-                    Placeholder="Nome" 
-                    Style="{StaticResource DefaultEntry}"/>
-                <Entry 
-                    Text="{Binding Sobrenome}"
-                    Placeholder="Sobrenome" 
-                    Style="{StaticResource DefaultEntry}"/>
-            </StackLayout>
+                Grid.Row="2"
+                Grid.Column="4"
+                Grid.ColumnSpan="2"
+                Color="{DynamicResource PrimaryColor}"
+                IsRunning="{Binding ActInd_IsRunning}"/>
+            <Entry 
+                Text="{Binding Nome}"
+                Placeholder="Nome" 
+                Grid.Row="3"
+                Grid.Column="0"
+                Grid.ColumnSpan="5"
+                Style="{StaticResource DefaultEntry}"/>
+            <Entry 
+                Text="{Binding Sobrenome}"
+                Placeholder="Sobrenome" 
+                Grid.Row="3"
+                Grid.Column="5"
+                Grid.ColumnSpan="5"
+                Style="{StaticResource DefaultEntry}"/>
             <Entry 
                 Text="{Binding CPF}"
                 Placeholder="CPF" 
                 MaxLength="11"
                 Keyboard="Numeric"
+                Grid.Row="4"
+                Grid.Column="0"
+                Grid.ColumnSpan="10"
                 Style="{StaticResource DefaultEntry}">
                 <Entry.Triggers>
                     <EventTrigger Event="TextChanged">
@@ -64,6 +106,9 @@
             <Entry 
                 Text="{Binding Email}"
                 Placeholder="Email" 
+                Grid.Row="5"
+                Grid.Column="0"
+                Grid.ColumnSpan="10"
                 Style="{StaticResource DefaultEntry}">
                 <Entry.Triggers>
                     <EventTrigger Event="TextChanged">
@@ -71,58 +116,89 @@
                     </EventTrigger>
                 </Entry.Triggers>
             </Entry>
-            <StackLayout 
-                Orientation="Horizontal">
-                <Entry 
-                    Text="{Binding CEP}"
-                    Placeholder="CEP" 
-                    MaxLength="8"
-                    Keyboard="Numeric"
-                    Style="{StaticResource DefaultEntry}">
-                    <Entry.Triggers>
-                        <EventTrigger Event="TextChanged">
-                            <t:CEPValidationTriggerAction/>
-                        </EventTrigger>
-                    </Entry.Triggers>
-                </Entry>
-                <Entry 
-                    Text="{Binding Cidade}"
-                    Placeholder="Cidade" 
-                    Style="{StaticResource DefaultEntry}"/>
-            </StackLayout>
+            <Entry 
+                Text="{Binding CEP}"
+                Placeholder="CEP" 
+                Grid.Row="6"
+                Grid.Column="0"
+                Grid.ColumnSpan="3"
+                MaxLength="8"
+                Keyboard="Numeric"
+                Style="{StaticResource DefaultEntry}">
+                <Entry.Triggers>
+                    <EventTrigger Event="TextChanged">
+                        <t:CEPValidationTriggerAction/>
+                    </EventTrigger>
+                </Entry.Triggers>
+            </Entry>
             <Entry 
                 Text="{Binding Endereco}"
                 Placeholder="Endereço" 
+                Grid.Row="6"
+                Grid.Column="3"
+                Grid.ColumnSpan="7"
                 Style="{StaticResource DefaultEntry}"/>
-            <StackLayout Orientation="Horizontal">
-                <Entry 
-                    Text="{Binding Estado}"
-                    Placeholder="Estado" 
-                    Style="{StaticResource DefaultEntry}"/>
-                <Entry 
-                    Text="{Binding Numero}"
-                    Placeholder="Número" 
-                    Style="{StaticResource DefaultEntry}"/>
-            </StackLayout>
-            <StackLayout 
-                Orientation="Horizontal">
-                <Entry 
-                    Text="{Binding Senha}"
-                    IsPassword="{Binding IsPassword}"
-                    Style="{StaticResource DefaultEntry}"
-                    Margin="0,0,8,0"
-                    Placeholder="Senha"/>
-                <ImageButton 
-                    Command="{Binding SetIsPassword}"
-                    HorizontalOptions="End"
-                    Source="set_is_password.png"
-                    BackgroundColor="Transparent"
-                    WidthRequest="32"
-                    HeightRequest="1"/>
-            </StackLayout>
-            <StackLayout 
+            <Entry 
+                Text="{Binding Cidade}"
+                Placeholder="Cidade" 
+                Grid.Row="7"
+                Grid.Column="0"
+                Grid.ColumnSpan="7"
+                Style="{StaticResource DefaultEntry}"/>
+            <Entry 
+                Text="{Binding Estado}"
+                Placeholder="Estado" 
+                Grid.Row="7"
+                Grid.Column="7"
+                Grid.ColumnSpan="3"
+                MaxLength="2"
+                Style="{StaticResource DefaultEntry}"/>
+            <Entry 
+                Text="{Binding Numero}"
+                Placeholder="Número" 
+                Grid.Row="8"
+                Grid.Column="0"
+                Grid.ColumnSpan="5"
+                Style="{StaticResource DefaultEntry}"/>
+            <Entry 
+                Text="{Binding Telefone}"
+                Placeholder="Telefone" 
+                MaxLength="14"
+                Keyboard="Numeric"
+                Grid.Row="8"
+                Grid.Column="5"
+                Grid.ColumnSpan="5"
+                Style="{StaticResource DefaultEntry}">
+                <Entry.Behaviors>
+                    <b:TelephoneBehavior/>
+                </Entry.Behaviors>
+            </Entry>
+            <Entry 
+                Text="{Binding Senha}"
+                IsPassword="{Binding IsPassword}"
+                Style="{StaticResource DefaultEntry}"
+                Margin="0,0,8,0"
+                ReturnType="Done"
+                Placeholder="Senha"
+                Grid.Row="9"
+                Grid.Column="0"
+                Grid.ColumnSpan="9"/>
+            <ImageButton 
+                Command="{Binding SetIsPassword}"
+                HorizontalOptions="End"
+                Source="set_is_password.png"
+                BackgroundColor="Transparent"
+                Grid.Row="9"
+                Grid.Column="8"
+                Grid.ColumnSpan="2"
+                WidthRequest="32"
+                HeightRequest="1"/>
+            <StackLayout
+                Orientation="Horizontal"
                 HorizontalOptions="Center"
-                Orientation="Horizontal">
+                Grid.Row="10"
+                Grid.Column="0"
+                Grid.ColumnSpan="10">
                 <Label 
                     VerticalOptions="Center"
                     Text="Prestador de Serviço" 
@@ -134,9 +210,13 @@
             <Button 
                 Text="Cadastrar"
                 TextColor="White"
+                Command="{Binding CadastrarCommand}"
+                Grid.Row="11"
+                Grid.Column="0"
+                Grid.ColumnSpan="10"
                 Margin="16"
                 BackgroundColor="{DynamicResource PrimaryColor}"
                 HorizontalOptions="Center"/>
-        </StackLayout>
+        </Grid>
     </ScrollView>
 </ContentPage>

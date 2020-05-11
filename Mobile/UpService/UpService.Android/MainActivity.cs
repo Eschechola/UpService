@@ -3,7 +3,8 @@ using Android.Content.PM;
 using Android.Runtime;
 using Android.Views;
 using Android.OS;
-using Android.Graphics;
+using Xamarin.Forms;
+using Android.Content;
 
 namespace UpService.Droid
 {
@@ -14,12 +15,24 @@ namespace UpService.Droid
         {
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
-            Window.SetNavigationBarColor(new Color(Resource.Color.colorPrimary));
+            Window.SetNavigationBarColor(new Android.Graphics.Color(23, 86, 155));
+            EsperarMensagem();
             base.OnCreate(savedInstanceState);
             global::Xamarin.Forms.Forms.SetFlags("CollectionView_Experimental");
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
+        }
+        void EsperarMensagem()
+        {
+            //Espera uma mensagem
+            MessagingCenter.Subscribe<string>(this, "Mensagem", message =>
+            {
+                //Inicia um broadcast junto com a mensagem
+                var intent = new Intent(this, typeof(MensagemReceiver));
+                intent.PutExtra("mensagem", message);
+                SendBroadcast(intent);
+            });
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {

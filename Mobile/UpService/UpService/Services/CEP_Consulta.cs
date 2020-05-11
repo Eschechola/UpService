@@ -19,12 +19,14 @@ namespace UpService.Services
         {
             try
             {
-                WebClient web = new WebClient();
-                string result = web.DownloadString(url);
-                CEP obj = JsonConvert.DeserializeObject<CEP>(result);
-                return obj;
+                using(WebClient web = new WebClient())
+                {
+                    string result = web.DownloadString(url);
+                    CEP obj = JsonConvert.DeserializeObject<CEP>(result);
+                    return obj;
+                }               
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }

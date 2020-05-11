@@ -17,7 +17,7 @@ namespace UpService.TriggersAction
                 sender.Text += "-";
             }*/
             Valido = Validates.IsCPF(sender.Text);
-            sender.TextColor = Valido ? Color.FromHex("#17569B") : Color.Red;
+            sender.TextColor = Valido ? Color.FromHex("#002e6c") : Color.Red;
         }
     }
 }
