@@ -10,8 +10,93 @@
         <vm:AddJobViewModel/>
     </ContentPage.BindingContext>
     <ContentPage.Content>
-        <StackLayout>
-            
-        </StackLayout>
+        <ScrollView 
+            VerticalOptions="Center"
+            Padding="24">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+
+                <Entry 
+                    Text="{Binding Titulo}"
+                    Placeholder="Titulo"
+                    ReturnType="Next"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="10"/>
+                <Editor 
+                    Text="{Binding Descricao}"
+                    AutoSize="TextChanges"
+                    Placeholder="Descrição"
+                    MaxLength="600"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="10"/>
+                <Label 
+                    Text="{Binding TextoQuant}"
+                    HorizontalOptions="End"
+                    Grid.Row="2"
+                    Grid.Column="8"
+                    Grid.ColumnSpan="2"/>
+                <Label
+                    Text=" R$ "
+                    FontSize="Medium"
+                    VerticalOptions="Center"
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="1"/>
+                <Entry 
+                    Text="{Binding MaxValue, StringFormat='{0:F0}'}"
+                    VerticalOptions="Center"
+                    Keyboard="Numeric"
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="2"/>
+                <Slider
+                    Value="{Binding MaxValue}"
+                    MinimumTrackColor="Green"
+                    MaximumTrackColor="Red"
+                    Maximum="12000"
+                    Grid.Row="4"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="10"/>
+                <ActivityIndicator
+                    Margin="8"
+                    Grid.Row="5"
+                    Grid.Column="4"
+                    Grid.ColumnSpan="2"
+                    Color="{DynamicResource PrimaryDarkColor}"
+                    IsRunning="{Binding IsRunning}"/>
+                <Button
+                    Text="Enviar"
+                    Command="{Binding EnviarNewJob}"
+                    BackgroundColor="{DynamicResource PrimaryColor}"
+                    VerticalOptions="Start"
+                    TextColor="White"
+                    Grid.Row="6"
+                    Grid.Column="2"
+                    Grid.ColumnSpan="6"/>
+
+            </Grid>
+        </ScrollView>        
     </ContentPage.Content>
 </ContentPage>

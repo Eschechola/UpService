@@ -94,7 +94,7 @@ namespace UpService.ViewModels
             {
                 await DependencyService.Get<INavigationService>().NavigateTo_AddJob(Usuario);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 throw new Exception("GoTo_AddJob");
             }
