@@ -17,5 +17,6 @@ namespace UpServiceAPI.Infra.Interfaces
         void SendOffer(JobOffer offer);
         void AcceptOffer(string jobHash, int providerId, double valueAccept);
         void FinishJob(int id);
+        int GetMaxPublishedPage(int mountOfPage);
     }
 }

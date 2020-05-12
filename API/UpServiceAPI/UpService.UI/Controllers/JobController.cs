@@ -147,7 +147,13 @@ namespace UpService.UI.Controllers
                 
                 var jobsMapped = _mapper.Map<IList<JobDTO>>(allJobs);
 
-                return Ok(jobsMapped);
+                var maxPages = _jobService.GetMaxPublishedPage(mountOfPage);
+
+                return Ok( new
+                    {
+                        allPages = maxPages,
+                        jobs = jobsMapped
+                    });
             }
             catch (Exception)
             {
@@ -251,7 +257,7 @@ namespace UpService.UI.Controllers
 
                 return Ok("Trabalho finalizado com sucesso!");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return _errorStatusCode;
             }

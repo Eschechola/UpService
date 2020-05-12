@@ -10,5 +10,6 @@ namespace UpServiceAPI.Infra.Interfaces
         Client GetByCpf(string cpf);
         Client GetByEmail(string email);
         IList<Client> GetAllByEmail(string email);
+        void SendRequesterEvaluation(int fkIdClient, double note);
     }
 }

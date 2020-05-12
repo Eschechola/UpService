@@ -16,7 +16,10 @@ create table up_client(
     client_city varchar(90),
     client_zip_code varchar(15),
     client_street varchar(150),
-    client_home_number int
+    client_home_number varchar(8),
+    client_mount_notes int,
+    client_sum_notes double,
+    client_ranking double
 )charset=utf8;
 
 

@@ -16,11 +16,12 @@ namespace UpServiceAPI.Infra.Repository
         public JobRepository(IMySqlConnection connection)
         {
             _connection = connection.GetConnection();
-            _connection.Open();
         }
 
         public Job Get(int id)
         {
+            _connection.Open();
+            
             var query = @"
                             SELECT
                             
@@ -48,6 +49,8 @@ namespace UpServiceAPI.Infra.Repository
 
         public void FinishJob(Job job)
         {
+            _connection.Open();
+
             var parameters = new DynamicParameters();
             parameters.Add("@Id", job.Id);
             parameters.Add("@JobState", job.State);
@@ -70,6 +73,8 @@ namespace UpServiceAPI.Infra.Repository
 
         public void AcceptOffer(string jobHash, int providerId)
         {
+            _connection.Open();
+
             var parameters = new DynamicParameters();
             parameters.Add("@Hash", jobHash);
             parameters.Add("@ProviderID", providerId);
@@ -91,6 +96,8 @@ namespace UpServiceAPI.Infra.Repository
 
         public Job GetPublishedJob(int id)
         {
+            _connection.Open();
+
             var query = @"
                             SELECT
                             
@@ -121,6 +128,8 @@ namespace UpServiceAPI.Infra.Repository
 
         public IList<Job> GetAllPublishedJobs(int startIndex = 1, int mounOfPage = 1)
         {
+            _connection.Open();
+
             var parameters = new DynamicParameters();
             parameters.Add("@StartIndex", startIndex);
             parameters.Add("@MountOfPage", mounOfPage);
@@ -151,6 +160,8 @@ namespace UpServiceAPI.Infra.Repository
 
         public IList<Job> GetAllFinishedJobs(int clientID)
         {
+            _connection.Open();
+
             var query = @"
                             SELECT 
                             
@@ -187,6 +198,8 @@ namespace UpServiceAPI.Infra.Repository
 
         public IList<Job> GetAllAcceptedJobs(int clientID)
         {
+            _connection.Open();
+
             var query = @"
                             SELECT 
                             
@@ -224,6 +237,8 @@ namespace UpServiceAPI.Infra.Repository
 
         public int GetMountOfJobsPublisheds()
         {
+            _connection.Open();
+
             var query = @"
                             SELECT
                             COUNT(*)
@@ -241,6 +256,8 @@ namespace UpServiceAPI.Infra.Repository
 
         public Job GetByHash(string hash)
         {
+            _connection.Open();
+
             var query = @"
                             SELECT
                             
@@ -268,6 +285,7 @@ namespace UpServiceAPI.Infra.Repository
 
         public void Insert(Job job)
         {
+            _connection.Open();
 
             var parameters = new DynamicParameters();
             parameters.Add("@FkIdClientJobRequester", job.FkIdClientJobRequester);
@@ -304,6 +322,8 @@ namespace UpServiceAPI.Infra.Repository
 
         public IList<Job> SearchByTitle(string title)
         {
+            _connection.Open();
+
             var parameters = new DynamicParameters();
             parameters.Add("@Title", $"%{title}%");
 
@@ -334,6 +354,8 @@ namespace UpServiceAPI.Infra.Repository
 
         public IList<Job> SearchByCity(string city)
         {
+            _connection.Open();
+
             var parameters = new DynamicParameters();
             parameters.Add("@City", $"%{city}%");
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using UpServiceAPI.Infra.Entities;
 
 namespace UpServiceAPI.Application.DTO
 {

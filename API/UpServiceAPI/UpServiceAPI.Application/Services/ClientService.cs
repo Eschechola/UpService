@@ -22,6 +22,10 @@ namespace UpServiceAPI.Application.Services
         public Client Insert(Client client)
         {
             //insere o cliente e retorna de acordo com o CPF
+            client.MountNotes = 0;
+            client.SumNotes = 0;
+            client.Ranking = 0;
+            
              _clientRepository.Insert(client);
 
             return GetByCpf(client.CPF);
@@ -55,5 +59,15 @@ namespace UpServiceAPI.Application.Services
             return _clientRepository.GetAllByEmail(email);
         }
 
+        public void SendRequesterEvaluation(int fkIdClient, double note)
+        {
+            var client = Get(fkIdClient);
+            
+            client.MountNotes += 1;
+            client.SumNotes += note;
+            client.Ranking = (client.SumNotes / client.MountNotes);
+
+            _clientRepository.Update(client);
+        }
     }
 }

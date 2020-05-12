@@ -139,5 +139,14 @@ namespace UpServiceAPI.Application.Services
             var providerEmail = _clientService.Get(providerId).Email;
             _emailService.SendAcceptedOffer(job, providerEmail, valueAccept);
         }
+
+        public int GetMaxPublishedPage(int mountOfPage)
+        {
+            var mountOfJobs = _jobRepository.GetMountOfJobsPublisheds();
+
+            var maxPage = Math.Round(Convert.ToDouble(mountOfJobs / mountOfPage));
+
+            return Convert.ToInt32(maxPage);
+        }
     }
 }

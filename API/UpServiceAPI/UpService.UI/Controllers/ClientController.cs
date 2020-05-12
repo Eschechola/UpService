@@ -5,9 +5,9 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using System.Net;
 using UpServiceAPI.Services.DTO;
 using UpServiceAPI.Application.DTO;
+using System.Diagnostics;
 
 namespace UpService.UI.Controllers
 {
@@ -133,6 +133,29 @@ namespace UpService.UI.Controllers
             }
         }
 
+        [HttpPatch]
+        [Route("/api/v1/client/send-requester-evaluation")]
+        public IActionResult SendRequesterEvaluation([FromBody]RankDTO rank)
+        {
+            try
+            {
+                if(rank.Note < 1 || rank.Note > 5)
+                    return BadRequest("A nota deve estar entre 1 e 5.");
+
+                var clientExists = _clientService.Get(rank.FkIdClient);
+
+                if(clientExists == null)
+                    return BadRequest("O cliente informado não foi encontrado!");
+
+                return Ok("Avaliação enviada com sucesso!");
+            }
+            catch(Exception ex)
+            {
+                Debug.Write(ex.Message);
+                return _errorStatusCode;
+            }
+        }
+
         [HttpPut]
         [Route("/api/v1/client/update")]
         public IActionResult Update([FromBody]ClientDTO clientDTO)
@@ -169,6 +192,7 @@ namespace UpService.UI.Controllers
                 return _errorStatusCode;
             }
         }
+
 
 
         #endregion

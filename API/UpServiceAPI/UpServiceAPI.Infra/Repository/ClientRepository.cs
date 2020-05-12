@@ -1,9 +1,9 @@
-﻿using Dapper;
-using MySql.Data.MySqlClient;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Data;
 using System.Linq;
+using Dapper;
+using MySql.Data.MySqlClient;
+using System.Collections.Generic;
 using UpServiceAPI.Infra.Entities;
 using UpServiceAPI.Infra.Interfaces;
 
@@ -16,11 +16,14 @@ namespace UpServiceAPI.Infra.Repository
         public ClientRepository(IMySqlConnection connection)
         {
             _connection = connection.GetConnection();
-            _connection.Open();
         }
 
         public Client Get(int id)
         {
+                
+                
+            _connection.Open();
+
             var query = @"
                             SELECT
                             
@@ -64,6 +67,9 @@ namespace UpServiceAPI.Infra.Repository
             parameters.Add("@ZipCode", client.ZipCode);
             parameters.Add("@Street", client.Street);
             parameters.Add("@HomeNumber", client.HomeNumber);
+            parameters.Add("@MountNotes", client.MountNotes);
+            parameters.Add("@SumNotes", client.SumNotes);
+            parameters.Add("@Ranking", client.Ranking);
 
             var query = @"
                             INSERT INTO up_client
@@ -82,7 +88,10 @@ namespace UpServiceAPI.Infra.Repository
                                 @City,
                                 @ZipCode,
                                 @Street,
-                                @HomeNumber
+                                @HomeNumber,
+                                @MountNotes,
+                                @SumNotes,
+                                @Ranking
                             );  
                         ";
 
@@ -103,6 +112,9 @@ namespace UpServiceAPI.Infra.Repository
             parameters.Add("@ZipCode", client.ZipCode);
             parameters.Add("@Street", client.Street);
             parameters.Add("@HomeNumber", client.HomeNumber);
+            parameters.Add("@MountNotes", client.MountNotes);
+            parameters.Add("@SumNotes", client.SumNotes);
+            parameters.Add("@Ranking", client.Ranking);
 
             var query = @"
                             UPDATE up_client
@@ -117,7 +129,10 @@ namespace UpServiceAPI.Infra.Repository
                             client_city = @City,
                             client_zip_code = @ZipCode,
                             client_street = @Street,
-                            client_home_number = @HomeNumber
+                            client_home_number = @HomeNumber,
+                            client_mount_notes = @MountNotes,
+                            client_sum_notes = @SumNotes,
+                            client_ranking = @Ranking
 
                             WHERE 
                             client_cpf = @CPF
