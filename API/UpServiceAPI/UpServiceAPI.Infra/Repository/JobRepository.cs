@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 namespace UpServiceAPI.Infra.Repository
 {
-    public class JobRepository : IJobRepository, IDisposable
+    public class JobRepository : IJobRepository
     {
         public readonly MySqlConnection _connection;
 
@@ -20,9 +20,11 @@ namespace UpServiceAPI.Infra.Repository
 
         public Job Get(int id)
         {
-            _connection.Open();
-            
-            var query = @"
+            using (var connection = _connection)
+            {
+                connection.Open();
+
+                var query = @"
                             SELECT
                             
                             id Id,
@@ -41,22 +43,25 @@ namespace UpServiceAPI.Infra.Repository
                         ";
 
 
-            return _connection.Query<Job>(query, new { id })
-                .ToList()
-                .FirstOrDefault();
+                return connection.Query<Job>(query, new { id })
+                    .ToList()
+                    .FirstOrDefault();
+            }
         }
 
 
         public void FinishJob(Job job)
         {
-            _connection.Open();
+            using (var connection = _connection)
+            {
+                connection.Open();
 
-            var parameters = new DynamicParameters();
-            parameters.Add("@Id", job.Id);
-            parameters.Add("@JobState", job.State);
-            parameters.Add("@ConclusionDate", job.ConclusionDate);
+                var parameters = new DynamicParameters();
+                parameters.Add("@Id", job.Id);
+                parameters.Add("@JobState", job.State);
+                parameters.Add("@ConclusionDate", job.ConclusionDate);
 
-            var query = @"
+                var query = @"
                             UPDATE up_job
                             SET
                             
@@ -68,18 +73,21 @@ namespace UpServiceAPI.Infra.Repository
                             id = @Id;
                          ";
 
-            _connection.Query(query, parameters);
+                connection.Query(query, parameters);
+            }
         }
 
         public void AcceptOffer(string jobHash, int providerId)
         {
-            _connection.Open();
+            using (var connection = _connection)
+            {
+                connection.Open();
 
-            var parameters = new DynamicParameters();
-            parameters.Add("@Hash", jobHash);
-            parameters.Add("@ProviderID", providerId);
+                var parameters = new DynamicParameters();
+                parameters.Add("@Hash", jobHash);
+                parameters.Add("@ProviderID", providerId);
 
-            var query = @"
+                var query = @"
                             UPDATE up_job
                             SET
                             
@@ -91,14 +99,17 @@ namespace UpServiceAPI.Infra.Repository
                             job_hash = @Hash;
                          ";
 
-            _connection.Query(query, parameters);
+                connection.Query(query, parameters);
+            }
         }
 
         public Job GetPublishedJob(int id)
         {
-            _connection.Open();
+            using (var connection = _connection)
+            {
+                connection.Open();
 
-            var query = @"
+                var query = @"
                             SELECT
                             
                             id Id,
@@ -121,20 +132,23 @@ namespace UpServiceAPI.Infra.Repository
                         ";
 
 
-            return _connection.Query<Job>(query, new { id })
-                .ToList()
-                .FirstOrDefault();
+                return connection.Query<Job>(query, new { id })
+                    .ToList()
+                    .FirstOrDefault();
+            }
         }
 
         public IList<Job> GetAllPublishedJobs(int startIndex = 1, int mounOfPage = 1)
         {
-            _connection.Open();
+            using (var connection = _connection)
+            {
+                connection.Open();
 
-            var parameters = new DynamicParameters();
-            parameters.Add("@StartIndex", startIndex);
-            parameters.Add("@MountOfPage", mounOfPage);
+                var parameters = new DynamicParameters();
+                parameters.Add("@StartIndex", startIndex);
+                parameters.Add("@MountOfPage", mounOfPage);
 
-            var query = @"
+                var query = @"
                             SELECT 
                             
                             id Id,
@@ -154,15 +168,18 @@ namespace UpServiceAPI.Infra.Repository
                         ";
 
 
-            return _connection.Query<Job>(query, parameters)
-                .ToList();
+                return connection.Query<Job>(query, parameters)
+                    .ToList();
+            }
         }
 
         public IList<Job> GetAllFinishedJobs(int clientID)
         {
-            _connection.Open();
+            using (var connection = _connection)
+            {
+                connection.Open();
 
-            var query = @"
+                var query = @"
                             SELECT 
                             
                             id Id,
@@ -192,15 +209,18 @@ namespace UpServiceAPI.Infra.Repository
                             )
                         ";
 
-            return _connection.Query<Job>(query, new { clientID})
-                .ToList();
+                return connection.Query<Job>(query, new { clientID })
+                    .ToList();
+            }
         }
 
         public IList<Job> GetAllAcceptedJobs(int clientID)
         {
-            _connection.Open();
+            using (var connection = _connection)
+            {
+                connection.Open();
 
-            var query = @"
+                var query = @"
                             SELECT 
                             
                             id Id,
@@ -230,16 +250,19 @@ namespace UpServiceAPI.Infra.Repository
                             )
                         ";
 
-            return _connection.Query<Job>(query, new { clientID })
-                .ToList();
+                return connection.Query<Job>(query, new { clientID })
+                    .ToList();
+            }
         }
 
 
         public int GetMountOfJobsPublisheds()
         {
-            _connection.Open();
+            using (var connection = _connection)
+            {
+                connection.Open();
 
-            var query = @"
+                var query = @"
                             SELECT
                             COUNT(*)
 
@@ -249,16 +272,19 @@ namespace UpServiceAPI.Infra.Repository
                             job_state = 'PB'
                         ";
 
-            return _connection.Query<int>(query)
-                .ToList()
-                .FirstOrDefault();
+                return connection.Query<int>(query)
+                    .ToList()
+                    .FirstOrDefault();
+            }
         }
 
         public Job GetByHash(string hash)
         {
-            _connection.Open();
+            using (var connection = _connection)
+            {
+                connection.Open();
 
-            var query = @"
+                var query = @"
                             SELECT
                             
                             id Id,
@@ -277,28 +303,31 @@ namespace UpServiceAPI.Infra.Repository
                         ";
 
 
-            return _connection.Query<Job>(query, new { hash })
-                .ToList()
-                .FirstOrDefault();
+                return connection.Query<Job>(query, new { hash })
+                    .ToList()
+                    .FirstOrDefault();
+            }
         }
 
 
         public void Insert(Job job)
         {
-            _connection.Open();
+            using (var connection = _connection)
+            {
+                connection.Open();
 
-            var parameters = new DynamicParameters();
-            parameters.Add("@FkIdClientJobRequester", job.FkIdClientJobRequester);
-            parameters.Add("@FkIdClientJobProvider", job.FkIdClientJobProvider);
-            parameters.Add("@Hash", job.Hash);
-            parameters.Add("@Title", job.Title);
-            parameters.Add("@Description", job.Description);
-            parameters.Add("@PublicationDate", job.PublicationDate);
-            parameters.Add("@ConclusionDate", job.ConclusionDate);
-            parameters.Add("@JobMaxValue", job.JobMaxValue);
-            parameters.Add("@State", job.State);
+                var parameters = new DynamicParameters();
+                parameters.Add("@FkIdClientJobRequester", job.FkIdClientJobRequester);
+                parameters.Add("@FkIdClientJobProvider", job.FkIdClientJobProvider);
+                parameters.Add("@Hash", job.Hash);
+                parameters.Add("@Title", job.Title);
+                parameters.Add("@Description", job.Description);
+                parameters.Add("@PublicationDate", job.PublicationDate);
+                parameters.Add("@ConclusionDate", job.ConclusionDate);
+                parameters.Add("@JobMaxValue", job.JobMaxValue);
+                parameters.Add("@State", job.State);
 
-            var query = @"
+                var query = @"
                             INSERT INTO up_job
                             VALUES
                             
@@ -316,18 +345,21 @@ namespace UpServiceAPI.Infra.Repository
                             );       
                         ";
 
-            _connection.Query(query, parameters);
+                connection.Query(query, parameters);
+            }
         }
 
 
         public IList<Job> SearchByTitle(string title)
         {
-            _connection.Open();
+            using (var connection = _connection)
+            {
+                connection.Open();
 
-            var parameters = new DynamicParameters();
-            parameters.Add("@Title", $"%{title}%");
+                var parameters = new DynamicParameters();
+                parameters.Add("@Title", $"%{title}%");
 
-            var query = @"
+                var query = @"
                             SELECT
                             
                             id Id,
@@ -348,18 +380,20 @@ namespace UpServiceAPI.Infra.Repository
 
                         ";
 
-            return _connection.Query<Job>(query, parameters)
-                .ToList();
+                return connection.Query<Job>(query, parameters)
+                    .ToList();
+            }
         }
 
         public IList<Job> SearchByCity(string city)
         {
-            _connection.Open();
+            using (var connection = _connection)
+            {
+                connection.Open();
+                var parameters = new DynamicParameters();
+                parameters.Add("@City", $"%{city}%");
 
-            var parameters = new DynamicParameters();
-            parameters.Add("@City", $"%{city}%");
-
-            var query = @"
+                var query = @"
                             SELECT
                             
                             up_job.id Id,
@@ -383,14 +417,9 @@ namespace UpServiceAPI.Infra.Repository
                             LOWER(up_client.client_city) LIKE @City
                         ";
 
-            return _connection.Query<Job>(query, parameters)
-                .ToList();
-        }
-
-        public void Dispose()
-        {
-            if (_connection.State == ConnectionState.Open)
-                _connection.Close();
+                return connection.Query<Job>(query, parameters)
+                    .ToList();
+            }
         }
     }
 }

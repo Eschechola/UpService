@@ -155,7 +155,7 @@ namespace UpService.UI.Controllers
                         jobs = jobsMapped
                     });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return _errorStatusCode;
             }
