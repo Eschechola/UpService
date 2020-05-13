@@ -147,11 +147,12 @@ namespace UpService.UI.Controllers
                 if(clientExists == null)
                     return BadRequest("O cliente informado não foi encontrado!");
 
+                _clientService.SendRequesterEvaluation(rank.FkIdClient, rank.Note);
+
                 return Ok("Avaliação enviada com sucesso!");
             }
-            catch(Exception ex)
+            catch(Exception)
             {
-                Debug.Write(ex.Message);
                 return _errorStatusCode;
             }
         }
