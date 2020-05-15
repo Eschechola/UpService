@@ -194,8 +194,26 @@ namespace UpService.UI.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("/api/v1/client/get/{id:int}")]
+        public IActionResult Get(int id)
+        {
+            try
+            {
+                var client = _clientService.Get(id);
 
+                if (client != null)
+                    return BadRequest("Usuário não inexistente.");
 
+                var clientMapped = _mapper.Map<ClientDTO>(client);
+
+                return Ok(clientMapped);
+            }
+            catch (Exception)
+            {
+                return _errorStatusCode;
+            }
+        }
         #endregion
     }
 }

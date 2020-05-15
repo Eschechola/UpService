@@ -146,11 +146,11 @@ namespace UpServiceAPI.Infra.Entities
                 .NotEmpty()
                 .WithMessage("O Estado deve ser informado.")
 
-                .MinimumLength(5)
-                .WithMessage("O Estado deve ter no mínimo 5 caracteres.")
+                .MinimumLength(2)
+                .WithMessage("O Estado deve ter 2 caracteres.")
 
-                .MaximumLength(90)
-                .WithMessage("O Estado deve ter no máximo 90 caracteres.");
+                .MaximumLength(2)
+                .WithMessage("O Estado deve ter 2 caracteres.");
 
 
 
