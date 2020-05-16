@@ -111,16 +111,19 @@ namespace UpServiceAPI.Application.Services
                             
                             <br>
                             <strong>Telefone</strong>: {6}
+                            
+                            <br>
+                            <strong>Ranking</strong>: {7:0.0} ({8} avaliações)
                                 
                             <br>
-                            <strong>Com um valor estimado de</strong>: R${7}
+                            <strong>Com um valor estimado de</strong>: R${9:0.00}
                             
                             <br><br><br><br>
                             
-                            <center><a href=" + "https://localhost:44333/api/v1/job/accept-offer?jobHash={8}&providerId={9}&valueOffer={10}" + ">Clique aqui para aceitar a proposta</a></center>" +
+                            <center><a href=" + "https://api-upservices.azurewebsites.net/api/v1/job/accept-offer?jobHash={10}&providerId={11}&valueOffer={12}" + ">Clique aqui para aceitar a proposta</a></center>" +
 
                             "<br><br><br><br><br><br><br>" +
-                            "<center><p>Atenciosamente, Equipe UpService. &copy;</p></center>", job.Title, job.PublicationDate, job.Hash, provider.Name, provider.CPF, provider.Email, provider.Telephone, offerValue, job.Hash, provider.Id, offerValue)
+                            "<center><p>Atenciosamente, Equipe UpService. &copy;</p></center>", job.Title, job.PublicationDate, job.Hash, provider.Name, provider.CPF, provider.Email, provider.Telephone, provider.Ranking, provider.MountNotes,  offerValue, job.Hash, provider.Id, offerValue)
             };
 
             _emailSender.SendEmail(email, isHtml: true);

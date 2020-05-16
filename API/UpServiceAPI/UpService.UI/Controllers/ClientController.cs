@@ -202,7 +202,7 @@ namespace UpService.UI.Controllers
             {
                 var client = _clientService.Get(id);
 
-                if (client != null)
+                if (client == null)
                     return BadRequest("Usuário não inexistente.");
 
                 var clientMapped = _mapper.Map<ClientDTO>(client);
