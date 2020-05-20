@@ -56,7 +56,7 @@ namespace UpServiceAPI.Application.Services
 
         public IList<Job> GetAllAcceptedJobs(int clientID)
         {
-            return _jobRepository.GetAllFinishedJobs(clientID);
+            return _jobRepository.GetAllAcceptedJobs(clientID);
         }
 
         public Job GetByHash(string hash)
