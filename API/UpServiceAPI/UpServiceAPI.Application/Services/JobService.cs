@@ -46,7 +46,6 @@ namespace UpServiceAPI.Application.Services
 
             //qual job ele irá iniciar e quantos ele irá buscar
             return _jobRepository.GetAllPublishedJobs(startIndex, mountOfPage);
-        
         }
 
         public IList<Job> GetAllFinishedJobs(int clientID)

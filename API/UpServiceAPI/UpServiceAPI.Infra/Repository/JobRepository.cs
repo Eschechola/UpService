@@ -164,6 +164,10 @@ namespace UpServiceAPI.Infra.Repository
 
                             FROM up_job
                             
+                            WHERE 
+                            job_state = 'PB'
+
+
                             LIMIT @StartIndex, @MountOfPage
                         ";
 
