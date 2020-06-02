@@ -1,6 +1,4 @@
 ﻿using Dapper;
-using System;
-using System.Data;
 using System.Linq;
 using MySql.Data.MySqlClient;
 using UpServiceAPI.Infra.Entities;
@@ -419,6 +417,41 @@ namespace UpServiceAPI.Infra.Repository
                             
                             WHERE
                             LOWER(up_client.client_city) LIKE @City
+                        ";
+
+                return connection.Query<Job>(query, parameters)
+                    .ToList();
+            }
+        }
+
+        public IList<Job> GetAllPublishedJobsByClient(int clientID)
+        {
+            using (var connection = _connection)
+            {
+                connection.Open();
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@Id", clientID);
+
+                var query = @"
+                            SELECT
+                            
+                            id Id,
+                            fk_id_client_job_requester FkIdClientJobRequester,
+                            fk_id_client_job_provider FkIdClientJobProvider,
+                            job_hash Hash,
+                            job_title Title,
+                            job_description Description,
+                            job_publication_date PublicationDate,
+                            job_conclusion_date ConclusionDate,
+                            job_max_value JobMaxValue,
+                            job_state State
+
+                            FROM up_job
+                            
+                            WHERE
+                            fk_id_client_job_requester = @Id
+
                         ";
 
                 return connection.Query<Job>(query, parameters)

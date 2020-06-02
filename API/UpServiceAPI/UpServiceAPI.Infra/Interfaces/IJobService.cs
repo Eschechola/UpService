@@ -18,5 +18,6 @@ namespace UpServiceAPI.Infra.Interfaces
         void AcceptOffer(string jobHash, int providerId, double valueAccept);
         void FinishJob(int id);
         int GetMaxPublishedPage(int mountOfPage);
+        IList<Job> GetAllPublishedJobsByClient(int clientID = 1);
     }
 }

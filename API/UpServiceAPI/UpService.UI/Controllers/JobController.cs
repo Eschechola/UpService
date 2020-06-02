@@ -220,6 +220,27 @@ namespace UpService.UI.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("/api/v1/job/get-all-published-jobs-by-client/{clientID}")]
+        public IActionResult GetAllPublishedJobsByClient(int clientID)
+        {
+            try
+            {
+                var allJobs = _jobService.GetAllPublishedJobsByClient(clientID);
+
+                if (allJobs.Count > 0)
+                    return Ok(_mapper.Map<IList<JobDTO>>(allJobs));
+
+                else
+                    return BadRequest("Nenhum trabalho encontrado");
+
+            }
+            catch (Exception)
+            {
+                return _errorStatusCode;
+            }
+        }
+
 
         [HttpGet]
         [Route("/api/v1/job/search-by-city")]

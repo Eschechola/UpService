@@ -16,5 +16,6 @@ namespace UpServiceAPI.Infra.Interfaces
         IList<Job> SearchByTitle(string title);
         IList<Job> SearchByCity(string city);
         Job GetPublishedJob(int id);
+        IList<Job> GetAllPublishedJobsByClient(int clientID);
     }
 }

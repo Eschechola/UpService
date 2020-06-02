@@ -89,6 +89,11 @@ namespace UpServiceAPI.Application.Services
             return _jobRepository.SearchByTitle(title.ToLower());
         }
 
+        public IList<Job> GetAllPublishedJobsByClient(int clientID = 1)
+        {
+            return _jobRepository.GetAllPublishedJobsByClient(clientID);
+        }
+
         public IList<Job> SearchByCity(string city)
         {
             return _jobRepository.SearchByCity(city.ToLower());
