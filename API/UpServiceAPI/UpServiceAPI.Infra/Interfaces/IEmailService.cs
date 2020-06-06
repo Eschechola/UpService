@@ -7,5 +7,6 @@ namespace UpServiceAPI.Infra.Interfaces
         void SendOffer(Client requester, Client provider, Job job, double offerValue);
         void SendAcceptedOffer(Job job, string emailProvider, double valueAccept);
         void SendFinishJob(Job job, string emailProvider);
+        void SendForgotPassword(string email, string password, string ip);
     }
 }

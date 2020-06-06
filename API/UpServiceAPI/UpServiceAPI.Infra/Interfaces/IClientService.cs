@@ -11,5 +11,6 @@ namespace UpServiceAPI.Infra.Interfaces
         Client GetByEmail(string email);
         IList<Client> GetAllByEmail(string email);
         void SendRequesterEvaluation(int fkIdClient, double note);
+        void ForgotPassword(Client client, string ip);
     }
 }

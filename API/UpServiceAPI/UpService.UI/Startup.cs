@@ -3,6 +3,7 @@ using AutoMapper;
 using ESCHENet.Emails.Functions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,6 +34,8 @@ namespace UpService.UI
             #region WEB DI
 
             services.AddSingleton(Configuration);
+
+            services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddSingleton<IStatusCodeActionResult>(new Error500().StatusCode( 500, new { message = "Ocorreu um erro interno na aplicação por favor tente novamente" }));
 

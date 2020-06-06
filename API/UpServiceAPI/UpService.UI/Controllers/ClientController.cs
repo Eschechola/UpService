@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using UpServiceAPI.Services.DTO;
 using UpServiceAPI.Application.DTO;
 using System.Diagnostics;
+using ESCHENet.Http.Functions;
+using Microsoft.AspNetCore.Http;
 
 namespace UpService.UI.Controllers
 {
@@ -19,6 +21,7 @@ namespace UpService.UI.Controllers
         private readonly IClientService _clientService;
         private readonly IJobService _jobService;
 
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IStatusCodeActionResult _errorStatusCode;
         private readonly IMapper _mapper;
 
@@ -31,12 +34,14 @@ namespace UpService.UI.Controllers
             IClientService clientService,
             IJobService jobService,
 
+            IHttpContextAccessor httpContextAccessor,
             IStatusCodeActionResult errorStatusCode,
             IMapper mapper
         )
         {
             _clientService = clientService;
             _jobService = jobService;
+            _httpContextAccessor = httpContextAccessor;
             _errorStatusCode = errorStatusCode;
             _mapper = mapper;
         }
@@ -103,14 +108,14 @@ namespace UpService.UI.Controllers
                 ClientDTO clientExists = null;
                 
                 //verifica se existe um CPF com o login informado
-                var cpfExists = _clientService.GetByCpf(login.Username);
+                var cpfExists = _clientService.GetByCpf(login.EmailOrCpf);
 
                 if (cpfExists != null)
                     clientExists = _mapper.Map<ClientDTO>(cpfExists);
 
 
                 //verifica se existe um EMAIL com o login informado
-                var emailExists = _clientService.GetByEmail(login.Username);
+                var emailExists = _clientService.GetByEmail(login.EmailOrCpf);
 
                 if (emailExists != null)
                     clientExists = _mapper.Map<ClientDTO>(emailExists);
@@ -126,6 +131,40 @@ namespace UpService.UI.Controllers
                 }
 
                 return BadRequest("Login e/ou senha estão inválidos!");
+            }
+            catch (Exception)
+            {
+                return _errorStatusCode;
+            }
+        }
+
+        [HttpPost]
+        [Route("/api/v1/client/forgot-password/{emailOrCpf}")]
+        public IActionResult ForgotPassword(string emailOrCpf)
+        {
+            try
+            {
+                var ip = new IP(_httpContextAccessor).GetRequestIP();
+
+                var emailExists = _clientService.GetByEmail(emailOrCpf);
+                var cpfExists = _clientService.GetByCpf(emailOrCpf);
+
+                if(emailExists != null)
+                {
+                    _clientService.ForgotPassword(emailExists, ip);
+
+                    return Ok("Sua senha foi enviada com sucesso para seu endereço de email!");
+                }
+
+                if(cpfExists != null)
+                {
+                    _clientService.ForgotPassword(cpfExists, ip);
+
+                    return Ok("Sua senha foi enviada com sucesso para seu endereço de email!");
+                }
+
+                return BadRequest("Email e/ou CPF não encontrado na nossa base de dados.");
+                
             }
             catch (Exception)
             {

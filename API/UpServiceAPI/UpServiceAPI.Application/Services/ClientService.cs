@@ -8,15 +8,18 @@ namespace UpServiceAPI.Application.Services
     public class ClientService : IClientService
     {
         private readonly IClientRepository _clientRepository;
+        private readonly IEmailService _emailService;
         private readonly IMapper _mapper;
 
         public ClientService(
             IClientRepository clientRepository,
+            IEmailService emailService,
             IMapper mapper
         )
         {
             _clientRepository = clientRepository;
             _mapper = mapper;
+            _emailService = emailService;
         }
 
         public Client Insert(Client client)
@@ -68,6 +71,11 @@ namespace UpServiceAPI.Application.Services
             client.Ranking = (client.SumNotes / client.MountNotes);
 
             _clientRepository.Update(client);
+        }
+
+        public void ForgotPassword(Client client, string ip)
+        {
+            _emailService.SendForgotPassword(client.Email, client.Password, ip);
         }
     }
 }

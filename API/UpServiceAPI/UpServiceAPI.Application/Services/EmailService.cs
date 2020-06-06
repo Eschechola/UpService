@@ -128,5 +128,29 @@ namespace UpServiceAPI.Application.Services
 
             _emailSender.SendEmail(email, isHtml: true);
         }
+
+        public void SendForgotPassword(string clientEmail, string password, string ip)
+        {
+            var email = new Email
+            {
+                Receiver = clientEmail,
+                Subject = "UPService - Esqueceu sua senha?",
+                Body = String.Format(@"Alguém indicou que a conta vínculada a esse email esqueceu a senha de acesso,
+                                       por isso estamos te enviando.
+
+                                       <br><br>
+                                       <strong>Senha:</strong> {0}
+                                       <br>
+                                       <strong>IP do solicitante:</strong> {1}
+                                       <br>
+                                       <strong>Data da solicitação:</strong> {2}
+                                       <br><br><br><br>
+                                       <center>
+                                            <strong>Atenciosamente, Equipe UPService.</strong>
+                                       </center>", password, ip, DateTime.Now.ToString("dd/MM/yyyy"))
+            };
+
+            _emailSender.SendEmail(email, isHtml: true);
+        }
     }
 }
