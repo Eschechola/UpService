@@ -80,10 +80,9 @@ namespace UpService.Validator
             digito += resto.ToString();
             return cpf.EndsWith(digito);
         }
-
         public static bool IsTelephone(string telefone)
         {
-            return Regex.IsMatch(telefone, @"(\(\d{2}\)\s)(\d{4,5}\-\d{4})$");
+            return Regex.IsMatch(telefone, @"(\(\d{2}\))(\d{4,5}\-\d{4})");
         }
     }
 }

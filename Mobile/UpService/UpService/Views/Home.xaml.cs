@@ -20,6 +20,7 @@ namespace UpService.Views
             InitializeComponent();
             viewModel = (HomeViewModel)BindingContext;
             viewModel.Usuario = c;
+            viewModel.SetList();
         }
     }
 }

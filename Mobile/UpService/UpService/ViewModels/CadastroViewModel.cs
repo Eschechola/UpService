@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Text.RegularExpressions;
+using System.Diagnostics;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using System.Xml.Schema;
 using UpService.Models;
 using UpService.Services;
 using UpService.Validator;
@@ -67,6 +65,10 @@ namespace UpService.ViewModels
                 string v = value;
                 if(v.Length == 8)
                 {
+                    if (ActInd_IsRunning)
+                    {
+                        return;
+                    }
                     if (Validates.IsCEP(v))
                     {
                         void ts() { ResolveCEP(v); }
@@ -174,84 +176,105 @@ namespace UpService.ViewModels
 
         private async void CadastrarClient()
         {
-            if(string.IsNullOrEmpty(Nome) || string.IsNullOrWhiteSpace(Nome) || Nome.Trim().Length < 5)
-            {
-                MostrarMensagem.Mostrar("O preencha o campo Nome...");
-                return;
-            }
-            if (string.IsNullOrEmpty(Sobrenome) || string.IsNullOrWhiteSpace(Sobrenome) || Nome.Trim().Length < 5)
-            {
-                MostrarMensagem.Mostrar("O preencha o campo Sobrenome...");
-                return;
-            }
-            if (!Validates.IsEmail(Email))
-            {
-                MostrarMensagem.Mostrar("O Email informado é inválido...");
-                return;
-            }
-            if (!Validates.IsCPF(CPF))
-            {
-                MostrarMensagem.Mostrar("O CPF informado é inválido...");
-                return;
-            }
-            if (!Validates.IsCEP(CEP))
-            {
-                MostrarMensagem.Mostrar("O CEP informado é inválido...");
-                return;
-            }
-            if (string.IsNullOrEmpty(Endereco) || string.IsNullOrWhiteSpace(Endereco))
-            {
-                MostrarMensagem.Mostrar("Preencha seu Endereço...");
-                return;
-            }
-            if (string.IsNullOrEmpty(Cidade) || string.IsNullOrWhiteSpace(Cidade))
-            {
-                MostrarMensagem.Mostrar("Preencha o campo Cidade...");
-                return;
-            }
-            if (string.IsNullOrEmpty(Estado) || string.IsNullOrWhiteSpace(Estado) || Estado.Trim().Length <2)
-            {
-                MostrarMensagem.Mostrar("Preencha o campo Estado...");
-                return;
-            }
-            if (string.IsNullOrEmpty(Numero) || string.IsNullOrWhiteSpace(Numero))
-            {
-                MostrarMensagem.Mostrar("Preencha o número de sua casa ou apartamento...");
-                return;
-            }
-            if (!Validates.IsTelephone(Telefone))
-            {
-                MostrarMensagem.Mostrar("O Telefone informado é inválido...");
-                return;
-            }
-            if (string.IsNullOrEmpty(Senha) || string.IsNullOrWhiteSpace(Senha) || Senha.Trim().Length < 6)
-            {
-                MostrarMensagem.Mostrar("Digite uma Senha com pelo menos 6 caracteres...");
-                return;
-            }
-
-            Client c = new Client
-            {
-                Name = Nome + " " + Sobrenome,
-                Email = Email,
-                Country = "BRASIL",
-                City = Cidade.ToUpper(),
-                State = Estado.ToUpper(),
-                Street = Endereco,
-                Id = 0,
-                HomeNumber = 0,
-                Password = Senha,
-                Telephone = Telefone,
-                ZipCode = CEP,
-                CPF = CPF,
-                Type = IsPrestador ? "PS" : "SS"
-            };
-
+            ActInd_IsRunning = true;
             try
             {
-                await ConnectionAPI.Connection.AddClient(c);
-            }catch(Exception ex)
-            {
+                if (string.IsNullOrEmpty(Nome) || string.IsNullOrWhiteSpace(Nome) || Nome.Trim().Length < 5)
+                {
+                    MostrarMensagem.Mostrar("O preencha o campo Nome...");
+                    ActInd_IsRunning = false;
+                    return;
+                }
+                if (string.IsNullOrEmpty(Sobrenome) || string.IsNullOrWhiteSpace(Sobrenome) || Nome.Trim().Length < 5)
+                {
+                    MostrarMensagem.Mostrar("O preencha o campo Sobrenome...");
+                    ActInd_IsRunning = false;
+                    return;
+                }
+                if (!Validates.IsEmail(Email.Trim()))
+                {
+                    MostrarMensagem.Mostrar("O Email informado é inválido...");
+                    ActInd_IsRunning = false;
+                    return;
+                }
+                if (!Validates.IsCPF(CPF))
+                {
+                    MostrarMensagem.Mostrar("O CPF informado é inválido...");
+                    ActInd_IsRunning = false;
+                    return;
+                }
+                if (!Validates.IsCEP(CEP))
+                {
+                    MostrarMensagem.Mostrar("O CEP informado é inválido...");
+                    ActInd_IsRunning = false;
+                    return;
+                }
+                if (string.IsNullOrEmpty(Endereco) || string.IsNullOrWhiteSpace(Endereco))
+                {
+                    MostrarMensagem.Mostrar("Preencha seu Endereço...");
+                    ActInd_IsRunning = false;
+                    return;
+                }
+                if (string.IsNullOrEmpty(Cidade) || string.IsNullOrWhiteSpace(Cidade))
+                {
+                    MostrarMensagem.Mostrar("Preencha o campo Cidade...");
+                    ActInd_IsRunning = false;
+                    return;
+                }
+                if (string.IsNullOrEmpty(Estado) || string.IsNullOrWhiteSpace(Estado) || Estado.Trim().Length <2)
+                {
+                    MostrarMensagem.Mostrar("Preencha o campo Estado...");
+                    ActInd_IsRunning = false;
+                    return;
+                }
+                if (string.IsNullOrEmpty(Numero) || string.IsNullOrWhiteSpace(Numero))
+                {
+                    MostrarMensagem.Mostrar("Preencha o número da sua casa ou apartamento...");
+                    ActInd_IsRunning = false;
+                    return;
+                }
+                if (!Validates.IsTelephone(Telefone))
+                {
+                    MostrarMensagem.Mostrar("O Telefone informado é inválido...");
+                    ActInd_IsRunning = false;
+                    return;
+                }
+                if (string.IsNullOrEmpty(Senha) || string.IsNullOrWhiteSpace(Senha) || Senha.Trim().Length < 6)
+                {
+                    MostrarMensagem.Mostrar("Digite uma Senha com pelo menos 6 caracteres...");
+                    ActInd_IsRunning = false;
+                    return;
+                }
+
+                Client c = new Client
+                {
+                    Name = Nome + " " + Sobrenome,
+                    Email = Email,
+                    Country = "BRASIL",
+                    City = Cidade.ToUpper(),
+                    State = Estado.ToUpper(),
+                    Street = Endereco,
+                    Id = 0,
+                    MountNotes = 0,
+                    Ranking = 0,
+                    SumNotes = 0,
+                    HomeNumber = Numero,
+                    Password = Senha,
+                    Telephone = Telefone,
+                    ZipCode = CEP,
+                    CPF = CPF,
+                    Type = IsPrestador ? "PS" : "SS"
+                };
+                bool res = await ConnectionAPI.Connection.AddClient(c);
+                if (res)
+                {
+                    MostrarMensagem.Mostrar("Cadastrado com sucesso... ");
+                }
+                ActInd_IsRunning = false;
+            }
+            catch(Exception ex){
+                ActInd_IsRunning = false;
+                Debug.WriteLine("CadastroViewModel: " + ex.Message);
                 MostrarMensagem.Mostrar(ex.Message);
             }
         }

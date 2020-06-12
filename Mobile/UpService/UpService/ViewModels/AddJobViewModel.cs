@@ -1,5 +1,7 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Windows.Input;
 using UpService.Models;
+using UpService.Services;
 using Xamarin.Forms;
 
 namespace UpService.ViewModels
@@ -10,7 +12,7 @@ namespace UpService.ViewModels
         private string _Titulo;
         private string _Descricao;
         private string _TextoQuant;
-        private int _MaxValue;
+        private double _MaxValue;
         private bool _IsRunning;
 
         public Client Usuario
@@ -30,7 +32,7 @@ namespace UpService.ViewModels
             set
             {
                 SetProperty<string>(ref _Descricao, value, nameof(Descricao));
-                TextoQuant = (600 - Descricao.Length).ToString();
+                TextoQuant = (3000 - Descricao.Length).ToString();
             }
         }
         public string TextoQuant
@@ -38,10 +40,10 @@ namespace UpService.ViewModels
             get => _TextoQuant;
             set => SetProperty<string>(ref _TextoQuant, value, nameof(TextoQuant));
         }
-        public int MaxValue
+        public double MaxValue
         {
             get => _MaxValue;
-            set => SetProperty<int>(ref _MaxValue, value, nameof(MaxValue));
+            set => SetProperty<double>(ref _MaxValue, value, nameof(MaxValue));
         }
         public bool IsRunning
         {
@@ -52,8 +54,64 @@ namespace UpService.ViewModels
         public AddJobViewModel()
         {
             MaxValue = 30;
-            TextoQuant = 600.ToString();
-            EnviarNewJob = new Command(() => { });
+            TextoQuant = 3000.ToString();
+            EnviarNewJob = new Command(AdicionarNewJob);
+        }
+
+        private async void AdicionarNewJob()
+        {
+            IsRunning = true;
+            
+            try
+            {
+                if (string.IsNullOrEmpty(Titulo) || string.IsNullOrWhiteSpace(Titulo) || Titulo.Length < 10)
+                {
+                    MostrarMensagem.Mostrar("Preencha o campo Titulo. Mínimo de 10 caracteres");
+                    IsRunning = false;
+                    return;
+                }
+                if (string.IsNullOrEmpty(Descricao) || string.IsNullOrWhiteSpace(Descricao) || Descricao.Length < 45)
+                {
+                    MostrarMensagem.Mostrar("É necessário uma descrição do serviço. Mínimo de 45 caracteres");
+                    IsRunning = false;
+                    return;
+                }
+                if (MaxValue <= 30)
+                {
+                    MostrarMensagem.Mostrar("Valor mínimo de R$ 30");
+                    IsRunning = false;
+                    return;
+                }
+
+                bool result = await ConnectionAPI.Connection.AddJob(new Job
+                {
+                    Id = 0,
+                    PublicationDate = DateTime.Now,
+                    JobMaxValue = this.MaxValue,
+                    Description = Descricao,
+                    Title = Titulo,
+                    State = "PB",
+                    FkIdClientJobRequester = Usuario.Id
+                });
+                if (result)
+                {
+                    MostrarMensagem.Mostrar("Serviço adicionado \ncom sucesso");
+                    IsRunning = false;
+                    await DependencyService.Get<INavigationService>().GoBack();
+                }
+            }
+            catch (NullReferenceException ex)
+            {
+                MostrarMensagem.Mostrar(ex.Message);
+                IsRunning = false;
+                return;
+            }
+            catch (Exception ex)
+            {
+                MostrarMensagem.Mostrar(ex.Message);
+                IsRunning = false;
+                return;
+            }
         }
     }
 }

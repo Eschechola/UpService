@@ -4,13 +4,15 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:UpService.ViewModels"
+             xmlns:c="clr-namespace:UpService.CustomViews"
              mc:Ignorable="d"
              Title="Detalhes"
              x:Class="UpService.Views.JobDetalhe">
     <ContentPage.BindingContext>
         <vm:JobDetalheViewModel/>
     </ContentPage.BindingContext>
-    <ScrollView Padding="24">
+    <ScrollView 
+        Padding="24">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
@@ -20,18 +22,30 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="0.5*"/>
             </Grid.ColumnDefinitions>
             <Label 
                 Text="{Binding JobInDetail.Title}"
@@ -40,19 +54,19 @@
                 TextColor="{DynamicResource PrimaryDarkColor}"
                 Grid.Row="0"
                 Grid.Column="0"
-                Grid.ColumnSpan="5"/>
+                Grid.ColumnSpan="10"/>
             <Label 
                 Text="{Binding JobInDetail.PublicationDate, StringFormat='{0:dd/MM/yyyy}'}"
                 FontSize="Small"
                 HorizontalOptions="End"
                 TextColor="{DynamicResource PrimaryColor}"
                 Grid.Row="0"
-                Grid.Column="7"
-                Grid.ColumnSpan="3"/>
+                Grid.Column="14"
+                Grid.ColumnSpan="6"/>
             <BoxView
                 Grid.Row="1"
                 Grid.Column="0"
-                Grid.ColumnSpan="10"
+                Grid.ColumnSpan="20"
                 BackgroundColor="{DynamicResource PrimaryDarkColor}"
                 HeightRequest="1"/>
             <Label
@@ -60,7 +74,7 @@
                 Grid.Row="2"
                 Grid.RowSpan="3"
                 Grid.Column="0"
-                Grid.ColumnSpan="10">
+                Grid.ColumnSpan="20">
                 <Label.FormattedText>
                     <FormattedString>
                         <FormattedString.Spans>
@@ -76,13 +90,12 @@
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
-
             <Label 
                 TextColor="{DynamicResource PrimaryDarkColor}"
                 Grid.Row="5"
                 FontSize="Medium"
                 Grid.Column="0"
-                Grid.ColumnSpan="6">
+                Grid.ColumnSpan="12">
                 <Label.FormattedText>
                     <FormattedString>
                         <FormattedString.Spans>
@@ -93,7 +106,7 @@
                             <Span 
                                 FontSize="Medium"
                                 FontAttributes="Bold"
-                                Text="12.000"/>
+                                Text="{Binding JobInDetail.JobMaxValue}"/>
                         </FormattedString.Spans>
                     </FormattedString>
                 </Label.FormattedText>
@@ -101,12 +114,40 @@
             <Label 
                 Text="{Binding JobInDetail.State}"
                 FontSize="Medium"
-                TextColor="Orange"
+                TextColor="{DynamicResource PrimaryDarkColor}"
                 HorizontalOptions="End"
                 FontAttributes="Bold"
                 Grid.Row="5"
-                Grid.Column="6"
-                Grid.ColumnSpan="4"/>
+                Grid.Column="12"
+                Grid.ColumnSpan="8"/>
+            <c:RatingBarXF 
+                Grid.Row="6"
+                Grid.Column="0"
+                Grid.ColumnSpan="20"
+                StepSize="0.5"
+                NumberOfStars="5"
+                HorizontalOptions="Center"
+                Rating="{Binding Rating, Mode=TwoWay}"
+                IsVisible="{Binding RatingBarVisibility}"
+                />
+            <Button
+                Text="{Binding TextoMainButton}"
+                IsVisible="{Binding MainButtonVisibility}"
+                BackgroundColor="{DynamicResource PrimaryColor}"
+                Command="{Binding MainButtonCommand}"
+                HorizontalOptions="Center"
+                TextColor="White"
+                Grid.Row="7"
+                Grid.Column="0"
+                Grid.ColumnSpan="20"/>
+            <ActivityIndicator
+                Grid.Row="8"
+                Grid.Column="0"
+                Grid.ColumnSpan="20"
+                HorizontalOptions="Center"
+                Color="{DynamicResource PrimaryDarkColor}"
+                IsRunning="{Binding ActInd_IsRunning}"
+                />
         </Grid>
     </ScrollView>
 </ContentPage>

@@ -5,15 +5,14 @@
     xmlns:d="http://xamarin.com/schemas/2014/forms/design"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:UpService.ViewModels"
-    xmlns:m="clr-namespace:UpService.Models"
     mc:Ignorable="d"
     x:Class="UpService.Views.Home">
     <MasterDetailPage.BindingContext>
         <vm:HomeViewModel/>
     </MasterDetailPage.BindingContext>
     <MasterDetailPage.Master>
-        <ContentPage Title="Home">
-            <Grid BackgroundColor="LightGray">
+        <ContentPage Title="HomePrestador">
+            <Grid BackgroundColor="#EFEFEF">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
@@ -27,44 +26,74 @@
                     <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
 
-                <StackLayout 
-                    BackgroundColor="#DDD"
-                    Padding="16"
+                <TableView
                     Grid.Row="0" 
                     Grid.Column="0"
                     Grid.ColumnSpan="5">
-                    <Label
-                        FontSize="Small"
-                        TextColor="{DynamicResource PrimaryDarkColor}" 
-                        FontAttributes="Bold">
-                        <Label.FormattedText>
-                            <FormattedString>
-                                <FormattedString.Spans>
-                                    <Span Text="{Binding Usuario.Name}"/>
-                                </FormattedString.Spans>
-                            </FormattedString>
-                        </Label.FormattedText>
-                    </Label>
-                    <Label
-                        FontSize="Small"
-                        TextColor="{DynamicResource PrimaryDarkColor}" 
-                        FontAttributes="Bold">
-                        <Label.FormattedText>
-                            <FormattedString>
-                                <FormattedString.Spans>
-                                    <Span Text="{Binding Usuario.City}"/>
-                                    <Span Text=" - "/>
-                                    <Span Text="{Binding Usuario.State}"/>
-                                </FormattedString.Spans>
-                            </FormattedString>
-                        </Label.FormattedText>
-                    </Label>
-                    <Label 
-                        FontSize="Small"
-                        TextColor="{DynamicResource PrimaryDarkColor}" 
-                        FontAttributes="Bold"
-                        Text="{Binding Usuario.Email}"/>
-                </StackLayout>
+                    <TableRoot Title="Teste">
+                        <TableSection>
+                            <ViewCell>
+                                <Label
+                                    HorizontalTextAlignment="Center"
+                                    VerticalTextAlignment="Center"
+                                    FontSize="Small"
+                                    TextColor="{DynamicResource PrimaryDarkColor}" 
+                                    FontAttributes="Bold">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <FormattedString.Spans>
+                                                <Span Text="{Binding Usuario.Name}"/>
+                                            </FormattedString.Spans>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                            </ViewCell>
+                        </TableSection>
+                        <TableSection>
+                            <ViewCell>
+                                <Label
+                                    HorizontalTextAlignment="Center"
+                                    VerticalTextAlignment="Center"
+                                    FontSize="Small"
+                                    TextColor="{DynamicResource PrimaryDarkColor}" 
+                                    FontAttributes="Bold">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <FormattedString.Spans>
+                                                <Span Text="{Binding Usuario.City}"/>
+                                                <Span Text=" - "/>
+                                                <Span Text="{Binding Usuario.State}"/>
+                                            </FormattedString.Spans>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                            </ViewCell>
+                        </TableSection>
+                        <TableSection>
+                            <ViewCell>
+                                <Label 
+                                    HorizontalTextAlignment="Center"
+                                    VerticalTextAlignment="Center"
+                                    FontSize="Small"
+                                    TextColor="{DynamicResource PrimaryDarkColor}" 
+                                    FontAttributes="Bold"
+                                    Text="{Binding Usuario.Email}"/>
+                            </ViewCell>
+                        </TableSection>
+                        <TableSection>
+                            <ViewCell>
+                                <Button 
+                                    HorizontalOptions="FillAndExpand"
+                                    BackgroundColor="White"
+                                    Text="LOGOUT"
+                                    Command="{Binding LogoutCommand}"
+                                    CornerRadius="0"
+                                    TextColor="Red" 
+                                    FontAttributes="Bold"/>
+                            </ViewCell>
+                        </TableSection>
+                    </TableRoot>
+                </TableView>
             </Grid>
         </ContentPage>
     </MasterDetailPage.Master>
@@ -76,100 +105,111 @@
                     IconImageSource="ic_action_add_job.png"
                     Command="{Binding AddNewJob}"
                     Order="Primary"/>
+                <ToolbarItem 
+                    Text="Serviços finalizados"
+                    IconImageSource="ic_action_assignment.png"
+                    Command="{Binding GoToFinalizadosCommand}"
+                    Order="Primary"/>
             </ContentPage.ToolbarItems>
             <StackLayout>
                 <RefreshView
                         RefreshColor="{DynamicResource PrimaryDarkColor}"
                         IsRefreshing="{Binding IsRefreshing}"
                         Command="{Binding RefreshCommand}">
-                    <CollectionView 
+                    <ListView
                         SelectionMode="Single"
-                        ItemsSource="{Binding EmAberto}"
-                        SelectedItem="{Binding SelectedItem}"
-                        SelectionChangedCommand="{Binding SelectedItemChanged}">
-                        <CollectionView.EmptyView>
-                            <Label 
-                                FontSize="Large"
-                                HorizontalTextAlignment="Center"
-                                VerticalTextAlignment="Center"
-                                VerticalOptions="CenterAndExpand"
-                                HorizontalOptions="CenterAndExpand"
-                                Text="Não há serviços em Aberto ou em Progresso"/>
-                        </CollectionView.EmptyView>
-                        <CollectionView.ItemsLayout>
-                            <GridItemsLayout 
-                                Orientation="Vertical" 
-                                Span="1"/>
-                        </CollectionView.ItemsLayout>
-                        <CollectionView.ItemTemplate>
+                        HasUnevenRows="True"
+                        IsVisible="{Binding ListView_IsVisible}"
+                        ItemsSource="{Binding EmProgresso}"
+                        SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+                        CachingStrategy="RecycleElementAndDataTemplate">
+                        <ListView.ItemTemplate>
                             <DataTemplate>
-                                <Frame 
-                                    Visual="Material"
-                                    HasShadow="True">
-                                    <Grid 
-                                        VerticalOptions="CenterAndExpand"
-                                        HorizontalOptions="FillAndExpand">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="auto"/>
-                                            <RowDefinition Height="auto"/>
-                                            <RowDefinition Height="auto"/>
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="2*"/>
-                                            <ColumnDefinition Width="2*"/>
-                                            <ColumnDefinition Width="2*"/>
-                                            <ColumnDefinition Width="2*"/>
-                                            <ColumnDefinition Width="2*"/>
-                                        </Grid.ColumnDefinitions>
-
-                                        <Label 
-                                            Text="{Binding Title}"
-                                            FontSize="Medium"
-                                            FontAttributes="Bold"
-                                            TextColor="{DynamicResource PrimaryDarkColor}"
-                                            Grid.Row="0"
-                                            Grid.Column="0"
-                                            Grid.ColumnSpan="2"/>
-                                        <Label 
-                                            Grid.Row="0"
-                                            Grid.Column="4"
-                                            Text="01/01/20"
-                                            TextColor="{DynamicResource PrimaryColor}"
-                                            FontSize="Small"/>
-                                        <BoxView
-                                            Grid.Row="1"
-                                            Grid.Column="0"
-                                            Grid.ColumnSpan="5"
-                                            BackgroundColor="{DynamicResource PrimaryDarkColor}"
-                                            HeightRequest="1"/>
-                                        <Label
-                                            TextColor="{DynamicResource PrimaryDarkColor}"
-                                            Grid.Row="2"
-                                            Grid.Column="0"
-                                            MaxLines="5"
-                                            LineBreakMode="TailTruncation"
-                                            Grid.ColumnSpan="5">
-                                            <Label.FormattedText>
-                                                <FormattedString>
-                                                    <FormattedString.Spans>
-                                                        <Span 
-                                                            FontSize="Subtitle"
-                                                            FontAttributes="Bold" 
-                                                            Text="Descrição: " />
-                                                        <Span 
-                                                            FontSize="Small"
-                                                            TextColor="{DynamicResource PrimaryColor}"
-                                                            Text="{Binding Description}" />
-                                                    </FormattedString.Spans>
-                                                </FormattedString>
-                                            </Label.FormattedText>
-                                        </Label>
-                                    </Grid>
-                                </Frame>
+                                <ViewCell>
+                                    <Frame 
+                                        Margin="0,4,0,0"
+                                        Visual="Material"
+                                        HasShadow="True">
+                                        <Grid 
+                                            VerticalOptions="CenterAndExpand"
+                                            HorizontalOptions="FillAndExpand">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition Height="auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="2*"/>
+                                                <ColumnDefinition Width="2*"/>
+                                                <ColumnDefinition Width="2*"/>
+                                                <ColumnDefinition Width="2*"/>
+                                                <ColumnDefinition Width="2*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Label 
+                                                Text="{Binding Title}"
+                                                FontSize="Medium"
+                                                FontAttributes="Bold"
+                                                TextColor="{DynamicResource PrimaryDarkColor}"
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                Grid.ColumnSpan="2"/>
+                                            <Label 
+                                                Grid.Row="0"
+                                                Grid.Column="4"
+                                                Text="{Binding PublicationDate,StringFormat='{0:dd/MM/yyyy}'}"
+                                                TextColor="{DynamicResource PrimaryColor}"
+                                                FontSize="Small"/>
+                                            <BoxView
+                                                Grid.Row="1"
+                                                Grid.Column="0"
+                                                Grid.ColumnSpan="5"
+                                                BackgroundColor="{DynamicResource PrimaryDarkColor}"
+                                                HeightRequest="1"/>
+                                            <Label
+                                                TextColor="{DynamicResource PrimaryDarkColor}"
+                                                Grid.Row="2"
+                                                Grid.Column="0"
+                                                MaxLines="5"
+                                                LineBreakMode="TailTruncation"
+                                                Grid.ColumnSpan="5">
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <FormattedString.Spans>
+                                                            <Span 
+                                                                FontSize="Subtitle"
+                                                                FontAttributes="Bold" 
+                                                                Text="Descrição: " />
+                                                            <Span 
+                                                                FontSize="Small"
+                                                                TextColor="{DynamicResource PrimaryColor}"
+                                                                Text="{Binding Description}" />
+                                                        </FormattedString.Spans>
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
+                                            <BoxView
+                                                Grid.Row="3"
+                                                Grid.Column="0"
+                                                Grid.ColumnSpan="5"
+                                                BackgroundColor="{DynamicResource PrimaryColor}"
+                                                HeightRequest="1"/>
+                                        </Grid>
+                                    </Frame>
+                                </ViewCell>
                             </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
+                        </ListView.ItemTemplate>
+                    </ListView>
                 </RefreshView>
+                <Label 
+                    FontSize="Large"
+                    IsVisible="{Binding LabelEmptyView_IsVisible}"
+                    Margin="50"
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="Center"
+                    VerticalTextAlignment="Center"
+                    HorizontalTextAlignment="Center"
+                    Text="Não há serviços em Aberto ou em Progresso"/>
             </StackLayout>
         </ContentPage>
     </MasterDetailPage.Detail>

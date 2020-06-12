@@ -11,94 +11,165 @@
     </ContentPage.BindingContext>
     <ScrollView 
         Padding="24">
-        <StackLayout 
-            VerticalOptions="Center">
+        <Grid VerticalOptions="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
             <Label 
+                Grid.Row="0"
+                Grid.Column="0"
+                Grid.ColumnSpan="10"
                 FontSize="Title"
                 FontAttributes="Bold"
-                Margin="0,0,0,32"
+                Margin="0,0,0,24"
                 TextColor="{DynamicResource PrimaryDarkColor}"
                 HorizontalOptions="CenterAndExpand"
                 Text="UpService"/>
             <Label 
+                Grid.Row="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="10"
                 FontSize="Large"
                 TextColor="{DynamicResource PrimaryDarkColor}"
                 HorizontalOptions="CenterAndExpand"
                 Text="LOGIN"/>
             <ActivityIndicator
+                Grid.Row="2"
+                Grid.Column="0"
+                Grid.ColumnSpan="10"
+                HorizontalOptions="Center"
                 Color="{DynamicResource PrimaryDarkColor}"
                 IsRunning="{Binding ActInd_IsRunning}"/>
             <Label 
+                Grid.Row="3"
+                Grid.Column="0"
+                Grid.ColumnSpan="10"
                 TextColor="{DynamicResource PrimaryDarkColor}"
                 Margin="24,0,0,0"
                 FontSize="Medium"
                 Text="CPF ou Email"/>
             <Entry 
+                Grid.Row="4"
+                Grid.Column="0"
+                Grid.ColumnSpan="10"
                 Text="{Binding CPF_ou_Email}"
                 PlaceholderColor="{DynamicResource AccentColor}"
                 TextColor="{DynamicResource PrimaryDarkColor}"
                 FontSize="Medium"
-                Keyboard="Numeric"
+                ReturnType="Next"
                 Placeholder="CPF ou Email"/>
             <Label 
+                Grid.Row="5"
+                Grid.Column="0"
+                Grid.ColumnSpan="10"
                 TextColor="{DynamicResource PrimaryDarkColor}"
                 Margin="24,0,0,0"
                 FontSize="Medium"
                 Text="Senha"/>
-            <StackLayout 
-                Orientation="Horizontal">
-                <Entry 
-                    Text="{Binding Senha}"
-                    PlaceholderColor="{DynamicResource AccentColor}"
-                    TextColor="{DynamicResource PrimaryDarkColor}"
-                    IsPassword="{Binding IsPassword}"
-                    FontSize="Medium"
-                    HorizontalOptions="FillAndExpand"
-                    Margin="0,0,8,0"
-                    Placeholder="Senha"/>
-                <ImageButton 
-                    Command="{Binding SetIsPassword}"
-                    HorizontalOptions="End"
-                    Source="set_is_password.png"
-                    BackgroundColor="Transparent"
-                    WidthRequest="32"
-                    HeightRequest="1"/>
-            </StackLayout>
-            <StackLayout 
-                Orientation="Horizontal"
-                HorizontalOptions="Center">
-                <Label 
-                    FontSize="Body"
-                    VerticalOptions="Center"
-                    TextColor="{DynamicResource PrimaryDarkColor}"
-                    Text="Lembrar senha?"/>
-                <CheckBox 
-                    IsChecked="{Binding LembrarSenha}"
-                    Color="{DynamicResource PrimaryDarkColor}"/>
-            </StackLayout>
-            <StackLayout 
-                Margin="0,16,0,0"
+            <Entry 
+                Grid.Row="6"
+                Grid.Column="0"
+                Grid.ColumnSpan="9"
+                Text="{Binding Senha}"
+                PlaceholderColor="{DynamicResource AccentColor}"
+                TextColor="{DynamicResource PrimaryDarkColor}"
+                IsPassword="{Binding IsPassword}"
+                FontSize="Medium"
+                HorizontalOptions="FillAndExpand"
+                Margin="0,0,8,0"
+                ReturnType="Done"
+                Placeholder="Senha"/>
+            <ImageButton 
+                Grid.Row="6"
+                Grid.Column="9"
+                Command="{Binding SetIsPassword}"
+                HorizontalOptions="End"
+                Source="set_is_password.png"
+                BackgroundColor="Transparent"
+                WidthRequest="32"
+                HeightRequest="1"/>
+            <Label 
+                FontSize="Body"
+                Grid.Row="7"
+                Grid.Column="0"
+                Grid.ColumnSpan="10"
+                Margin="0,12,0,0"
+                Text="Esqueci minha senha"
                 HorizontalOptions="Center"
-                Orientation="Horizontal">
-                <Button 
-                    Text="Entrar"
-                    TextColor="White"
-                    Command="{Binding GoTo_MainPage}"
-                    BackgroundColor="{DynamicResource PrimaryColor}"
-                    HorizontalOptions="Center"/>
-                <Label 
-                    Text="OU"
-                    Margin="16,0,16,0"
-                    TextColor="{DynamicResource PrimaryColor}"
-                    VerticalOptions="Center"/>
-                <Button 
-                    Text="Cadastre-se"
-                    TextColor="White"
-                    Command="{Binding GoTo_Cadastro}"
-                    BackgroundColor="{DynamicResource PrimaryColor}"
-                    HorizontalOptions="Center"/>
-            </StackLayout>
-            
-        </StackLayout>
+                TextDecorations="Underline"
+                TextColor="{DynamicResource PrimaryDarkColor}">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding GoTo_EsqueciSenha}"/>
+                </Label.GestureRecognizers>
+            </Label>
+            <Label 
+                Grid.Row="8"
+                Grid.Column="0"
+                Grid.ColumnSpan="6"
+                FontSize="Body"
+                Margin="0,8,0,0"
+                VerticalOptions="Center"
+                HorizontalOptions="EndAndExpand"
+                TextColor="{DynamicResource PrimaryDarkColor}"
+                Text="Lembrar senha?"/>
+            <CheckBox 
+                Grid.Row="8"
+                Grid.Column="6"
+                Margin="0,8,0,0"
+                IsChecked="{Binding LembrarSenha}"
+                Color="{DynamicResource PrimaryDarkColor}"/>
+
+            <Button 
+                Grid.Row="9"
+                Grid.Column="0"
+                Grid.ColumnSpan="4"
+                Text="Entrar"
+                TextColor="White"
+                Margin="0,16,0,0"
+                Command="{Binding GoTo_MainPage}"
+                BackgroundColor="{DynamicResource PrimaryColor}"
+                HorizontalOptions="FillAndExpand"/>
+            <Label 
+                Grid.Row="9"
+                Grid.Column="4"
+                Grid.ColumnSpan="2"
+                Text="OU"
+                Margin="0,16,0,0"
+                HorizontalOptions="CenterAndExpand"
+                TextColor="{DynamicResource PrimaryColor}"
+                VerticalOptions="Center"/>
+            <Button 
+                Grid.Row="9"
+                Grid.Column="6"
+                Grid.ColumnSpan="4"
+                Text="Cadastre-se"
+                TextColor="White"
+                Margin="0,16,0,0"
+                Command="{Binding GoTo_Cadastro}"
+                BackgroundColor="{DynamicResource PrimaryColor}"
+                HorizontalOptions="FillAndExpand"/>
+           
+        </Grid>
     </ScrollView>
 </ContentPage>

@@ -1,7 +1,7 @@
-﻿using UpService.Models;
-using UpService.ViewModels;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
+using UpService.Models;
 using Xamarin.Forms.Xaml;
+using UpService.ViewModels;
 
 namespace UpService.Views
 {

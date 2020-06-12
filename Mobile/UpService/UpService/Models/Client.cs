@@ -14,6 +14,9 @@
         public string City { get; set; }
         public string ZipCode { get; set; }
         public string Street { get; set; }
-        public int HomeNumber { get; set; }
+        public string HomeNumber { get; set; }
+        public int MountNotes { get; set; }
+        public double SumNotes { get; set; }
+        public double Ranking { get; set; }
     }
 }

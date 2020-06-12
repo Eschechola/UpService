@@ -1,20 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
+using UpService.Models;
 using Xamarin.Forms.Xaml;
+using UpService.ViewModels;
 
 namespace UpService.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class JobDetalhe_Prestador : ContentPage
     {
-        public JobDetalhe_Prestador()
+        JobDetalhePrestadorViewModel vm;
+        public JobDetalhe_Prestador(Job item, Client user)
         {
             InitializeComponent();
+            vm = (JobDetalhePrestadorViewModel)BindingContext;
+            vm.Servico = item;
+            vm.Usuario = user;
+            vm.SetButtonVisibility();
         }
     }
 }

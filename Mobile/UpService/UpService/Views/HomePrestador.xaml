@@ -12,7 +12,7 @@
 
     <MasterDetailPage.Master>
         <ContentPage Title="HomePrestador">
-            <Grid BackgroundColor="LightGray">
+            <Grid BackgroundColor="#EFEFEF">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
@@ -26,103 +26,150 @@
                     <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
 
-                <StackLayout 
-                    BackgroundColor="#DDD"
-                    Padding="16"
+                <TableView
                     Grid.Row="0" 
                     Grid.Column="0"
                     Grid.ColumnSpan="5">
-                    <Label
-                        FontSize="Small"
-                        TextColor="{DynamicResource PrimaryDarkColor}" 
-                        FontAttributes="Bold">
-                        <Label.FormattedText>
-                            <FormattedString>
-                                <FormattedString.Spans>
-                                    <Span Text="{Binding Usuario.Name}"/>
-                                </FormattedString.Spans>
-                            </FormattedString>
-                        </Label.FormattedText>
-                    </Label>
-                    <Label
-                        FontSize="Small"
-                        TextColor="{DynamicResource PrimaryDarkColor}" 
-                        FontAttributes="Bold">
-                        <Label.FormattedText>
-                            <FormattedString>
-                                <FormattedString.Spans>
-                                    <Span Text="{Binding Usuario.City}"/>
-                                    <Span Text=" - "/>
-                                    <Span Text="{Binding Usuario.State}"/>
-                                </FormattedString.Spans>
-                            </FormattedString>
-                        </Label.FormattedText>
-                    </Label>
-                    <Label 
-                        FontSize="Small"
-                        TextColor="{DynamicResource PrimaryDarkColor}" 
-                        FontAttributes="Bold"
-                        Text="{Binding Usuario.Email}"/>
-                </StackLayout>
+                    <TableRoot Title="Teste">
+                        <TableSection>
+                            <ViewCell>
+                                <Label
+                                    HorizontalTextAlignment="Center"
+                                    VerticalTextAlignment="Center"
+                                    FontSize="Small"
+                                    TextColor="{DynamicResource PrimaryDarkColor}" 
+                                    FontAttributes="Bold">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <FormattedString.Spans>
+                                                <Span Text="{Binding Usuario.Name}"/>
+                                            </FormattedString.Spans>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                            </ViewCell>
+                        </TableSection>
+                        <TableSection>
+                            <ViewCell>
+                                <Label
+                                    HorizontalTextAlignment="Center"
+                                    VerticalTextAlignment="Center"
+                                    FontSize="Small"
+                                    TextColor="{DynamicResource PrimaryDarkColor}" 
+                                    FontAttributes="Bold">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <FormattedString.Spans>
+                                                <Span Text="{Binding Usuario.City}"/>
+                                                <Span Text=" - "/>
+                                                <Span Text="{Binding Usuario.State}"/>
+                                            </FormattedString.Spans>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                            </ViewCell>
+                        </TableSection>
+                        <TableSection>
+                            <ViewCell>
+                                <Label 
+                                    HorizontalTextAlignment="Center"
+                                    VerticalTextAlignment="Center"
+                                    FontSize="Small"
+                                    TextColor="{DynamicResource PrimaryDarkColor}" 
+                                    FontAttributes="Bold"
+                                    Text="{Binding Usuario.Email}"/>
+                            </ViewCell>
+                        </TableSection>
+                        <TableSection>
+                            <ViewCell>
+                                <Button 
+                                    HorizontalOptions="FillAndExpand"
+                                    BackgroundColor="White"
+                                    Text="LOGOUT"
+                                    Command="{Binding LogoutCommand}"
+                                    CornerRadius="0"
+                                    TextColor="Red" 
+                                    FontAttributes="Bold"/>
+                            </ViewCell>
+                        </TableSection>
+                    </TableRoot>
+                </TableView>
             </Grid>
         </ContentPage>
     </MasterDetailPage.Master>
     <MasterDetailPage.Detail>
         <ContentPage>
+            <ContentPage.ToolbarItems>
+                <ToolbarItem 
+                    Text="Pesquisar serviços"
+                    IconImageSource="ic_action_search.png"
+                    Command="{Binding GoTo_PesquisaJobsCommand}"
+                    Order="Primary"/>
+                <ToolbarItem 
+                    Text="Serviços finalizados"
+                    IconImageSource="ic_action_assignment.png"
+                    Command="{Binding GoTo_FinalizadosCommand}"
+                    Order="Primary"/>
+            </ContentPage.ToolbarItems>
             <StackLayout>
                 <RefreshView
                         RefreshColor="{DynamicResource PrimaryDarkColor}"
                         IsRefreshing="{Binding IsRefreshing}"
                         Command="{Binding RefreshCommand}">
-                    <CollectionView 
+                    <ListView 
                         SelectionMode="Single"
-                        ItemsSource="{Binding Finalizados}"
-                        SelectedItem="{Binding SelectedItem}"
-                        SelectionChangedCommand="{Binding SelectedItemChanged}">
-                        <CollectionView.ItemsLayout>
-                            <GridItemsLayout 
-                                Orientation="Vertical" 
-                                Span="1"/>
-                        </CollectionView.ItemsLayout>
-                        <CollectionView.ItemTemplate>
+                        HasUnevenRows="True"
+                        IsVisible="{Binding ListView_IsVisible}"
+                        ItemsSource="{Binding EmAberto}"
+                        SelectedItem="{Binding ItemSelected, Mode=TwoWay}"
+                        CachingStrategy="RecycleElementAndDataTemplate">
+                        <ListView.ItemTemplate>
                             <DataTemplate>
-                                <Frame 
-                                    Visual="Material"
-                                    HasShadow="True">
+                                <ViewCell>
                                     <Grid 
+                                        Margin="8,16,8,0"
                                         VerticalOptions="CenterAndExpand"
                                         HorizontalOptions="FillAndExpand">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="auto"/>
                                             <RowDefinition Height="auto"/>
                                             <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="auto"/>
                                         </Grid.RowDefinitions>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="2*"/>
-                                            <ColumnDefinition Width="2*"/>
-                                            <ColumnDefinition Width="2*"/>
-                                            <ColumnDefinition Width="2*"/>
-                                            <ColumnDefinition Width="2*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="1*"/>
                                         </Grid.ColumnDefinitions>
 
                                         <Label 
                                             Text="{Binding Title}"
                                             FontSize="Medium"
                                             FontAttributes="Bold"
+                                            Margin="4,0,0,0"
                                             TextColor="{DynamicResource PrimaryDarkColor}"
                                             Grid.Row="0"
                                             Grid.Column="0"
-                                            Grid.ColumnSpan="2"/>
+                                            Grid.ColumnSpan="7"/>
                                         <Label 
                                             Grid.Row="0"
-                                            Grid.Column="4"
-                                            Text="01/01/20"
+                                            Grid.Column="7"
+                                            Grid.ColumnSpan="3"
+                                            HorizontalOptions="End"
+                                            Text="{Binding PublicationDate,StringFormat='{0:dd/MM/yyyy}'}"
                                             TextColor="{DynamicResource PrimaryColor}"
                                             FontSize="Small"/>
                                         <BoxView
                                             Grid.Row="1"
                                             Grid.Column="0"
-                                            Grid.ColumnSpan="5"
+                                            Grid.ColumnSpan="10"
                                             BackgroundColor="{DynamicResource PrimaryDarkColor}"
                                             HeightRequest="1"/>
                                         <Label
@@ -131,7 +178,7 @@
                                             Grid.Column="0"
                                             MaxLines="5"
                                             LineBreakMode="TailTruncation"
-                                            Grid.ColumnSpan="5">
+                                            Grid.ColumnSpan="10">
                                             <Label.FormattedText>
                                                 <FormattedString>
                                                     <FormattedString.Spans>
@@ -147,12 +194,47 @@
                                                 </FormattedString>
                                             </Label.FormattedText>
                                         </Label>
+                                        <BoxView
+                                            Grid.Row="3"
+                                            Grid.Column="0"
+                                            Grid.ColumnSpan="10"
+                                            BackgroundColor="{DynamicResource PrimaryColor}"
+                                            HeightRequest="1"/>
                                     </Grid>
-                                </Frame>
+                                </ViewCell>
                             </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
+                        </ListView.ItemTemplate>
+                    </ListView>
                 </RefreshView>
+                <Label 
+                    IsVisible="{Binding LabelEmptyView_IsVisible}"
+                    FontSize="Large"
+                    VerticalTextAlignment="Center"
+                    HorizontalTextAlignment="Center"
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="CenterAndExpand"
+                    Text="Não há serviços disponíveis, tente novamente mais tarde"/>
+                <StackLayout
+                    Margin="0,0,0,8"
+                    IsVisible="True"
+                    HorizontalOptions="Center"
+                    Orientation="Horizontal">
+                    <ImageButton 
+                        Source="ic_action_back.png"
+                        IsVisible="{Binding SetaEsquerda_Visibility}"
+                        Command="{Binding BackPageCommand}"
+                        BackgroundColor="{DynamicResource PrimaryColor}"/>
+                    <Label 
+                        Text="{Binding PaginaAtual}"
+                        Margin="8,0,8,0"
+                        FontAttributes="Bold"
+                        TextColor="{DynamicResource PrimaryDarkColor}"/>
+                    <ImageButton 
+                        Source="ic_action_forward.png"
+                        Command="{Binding ForwardPageCommand}"
+                        IsVisible="{Binding SetaDireita_Visibility}"
+                        BackgroundColor="{DynamicResource PrimaryColor}"/>
+                </StackLayout>
             </StackLayout>
         </ContentPage>
     </MasterDetailPage.Detail>

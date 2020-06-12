@@ -3,6 +3,104 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:UpService.ViewModels"
              mc:Ignorable="d"
              x:Class="UpService.Views.JobDetalhe_Prestador">
+    <ContentPage.BindingContext>
+        <vm:JobDetalhePrestadorViewModel/>
+    </ContentPage.BindingContext>
+    <Grid 
+        Padding="24"
+        RowSpacing="4"
+        VerticalOptions="Center">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Label 
+            TextColor="{DynamicResource PrimaryDarkColor}"
+            Text="{Binding Servico.Title}"
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="10"
+            MaxLines="2"
+            FontSize="Large"/>
+        <Label
+            TextColor="{DynamicResource PrimaryDarkColor}"
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="10">
+            <Label.FormattedText>
+                <FormattedString>
+                    <FormattedString.Spans>
+                        <Span 
+                            FontSize="Subtitle"
+                            FontAttributes="Bold" 
+                            Text="Descrição: " />
+                        <Span 
+                            FontSize="Default"
+                            TextColor="{DynamicResource PrimaryColor}"
+                            Text="{Binding Servico.Description}" />
+                    </FormattedString.Spans>
+                </FormattedString>
+            </Label.FormattedText>
+        </Label>
+        <Label Text=" R$ "
+               TextColor="{DynamicResource PrimaryDarkColor}"
+               Grid.Row="2"
+               Grid.Column="0"
+               VerticalOptions="Center"
+               HorizontalOptions="Start"/>
+        <Entry 
+            Text="{Binding ValueOffer, StringFormat='{0:F0}'}"
+            TextColor="{DynamicResource PrimaryColor}"
+            VerticalOptions="Center"
+            Keyboard="Numeric"
+            Grid.Row="2"
+            Grid.Column="1"
+            Grid.ColumnSpan="2"/>
+        <Slider 
+            Value="{Binding ValueOffer}"
+            Maximum="{Binding Servico.JobMaxValue}"
+            MinimumTrackColor="{DynamicResource PrimaryColor}"
+            MaximumTrackColor="{DynamicResource AccentColor}"
+            Grid.Row="3"
+            Grid.Column="0"
+            Grid.ColumnSpan="10"/>
+        <Button 
+            Text="ENVIAR ORÇAMENTO"
+            BackgroundColor="{DynamicResource PrimaryColor}"
+            IsEnabled="{Binding SendOfferIsEnabled}"
+            Command="{Binding EnviarOrcamento}"
+            TextColor="White"
+            Grid.Row="4"
+            Grid.Column="2"
+            Grid.ColumnSpan="6"/>
+        <Label
+            IsVisible="{Binding MessageOfferJobIsVisible}"
+            Text="Orçamento já enviado&#10;aguarde resposta do solicitante"
+            Grid.Row="5"
+            Grid.Column="0"
+            Grid.ColumnSpan="10"
+            HorizontalOptions="Center"
+            TextColor="Red"
+            FontSize="Small"
+            HorizontalTextAlignment="Center"/>
+    </Grid>
 </ContentPage>
