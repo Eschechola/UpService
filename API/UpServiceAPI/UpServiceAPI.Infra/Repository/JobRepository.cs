@@ -452,6 +452,9 @@ namespace UpServiceAPI.Infra.Repository
                             WHERE
                             fk_id_client_job_requester = @Id
 
+                            AND
+                            job_state = 'PB'
+
                         ";
 
                 return connection.Query<Job>(query, parameters)
