@@ -461,5 +461,48 @@ namespace UpServiceAPI.Infra.Repository
                     .ToList();
             }
         }
+
+        public IList<Job> GetAllPublishedAndAcceptedJobsByClient(int clientID)
+        {
+            using (var connection = _connection)
+            {
+                connection.Open();
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@Id", clientID);
+
+                var query = @"
+                            SELECT
+                            
+                            id Id,
+                            fk_id_client_job_requester FkIdClientJobRequester,
+                            fk_id_client_job_provider FkIdClientJobProvider,
+                            job_hash Hash,
+                            job_title Title,
+                            job_description Description,
+                            job_publication_date PublicationDate,
+                            job_conclusion_date ConclusionDate,
+                            job_max_value JobMaxValue,
+                            job_state State
+
+                            FROM up_job
+                            
+                            WHERE
+                            fk_id_client_job_requester = @Id
+
+                            AND
+                            (
+                                job_state = 'PB'
+                                
+                                OR
+                                job_state = 'AC'
+                            
+                            )
+                        ";
+
+                return connection.Query<Job>(query, parameters)
+                    .ToList();
+            }
+        }
     }
 }

@@ -200,6 +200,25 @@ namespace UpService.UI.Controllers
 
 
         [HttpGet]
+        [Route("/api/v1/job/get-all-published-and-accepted-jobs/{clientID:int}")]
+        public IActionResult GetAllPublishedAndAcceptedJobsByClient(int clientID = 1)
+        {
+            try
+            {
+                var alljobs = _jobService.GetAllPublishedAndAcceptedJobsByClient(clientID);
+
+                var jobsMapped = _mapper.Map<IList<JobDTO>>(alljobs);
+
+                return Ok(jobsMapped);
+            }
+            catch (Exception)
+            {
+                return _errorStatusCode;
+            }
+        }
+
+
+        [HttpGet]
         [Route("/api/v1/job/search-by-title")]
         public IActionResult SearchByTitle([FromQuery]string title = "")
         {

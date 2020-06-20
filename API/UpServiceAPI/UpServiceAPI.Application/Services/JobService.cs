@@ -152,5 +152,10 @@ namespace UpServiceAPI.Application.Services
 
             return Convert.ToInt32(maxPage);
         }
+
+        public IList<Job> GetAllPublishedAndAcceptedJobsByClient(int clientID = 1)
+        {
+            return _jobRepository.GetAllPublishedAndAcceptedJobsByClient(clientID);
+        }
     }
 }
