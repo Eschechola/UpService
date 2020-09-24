@@ -111,10 +111,10 @@ namespace UpServiceAPI.Infra.Entities
 
             RuleFor(v => v.Telephone)
                 .NotEmpty()
-                .WithMessage("O Telefone deve ser informado.")
+                .WithMessage("O telefone deve ser informado.")
 
                 .MinimumLength(8)
-                .WithMessage("O CPF deve conter no mínimo 8 caracteres.")
+                .WithMessage("O telefone deve conter no mínimo 8 caracteres.")
 
                 .MaximumLength(15)
                 .WithMessage("O telefone deve conter no máximo 15 caracteres.");
@@ -131,39 +131,39 @@ namespace UpServiceAPI.Infra.Entities
 
             RuleFor(v => v.Country)
                 .NotEmpty()
-                .WithMessage("O País deve ser informado.")
+                .WithMessage("O país deve ser informado.")
 
                 .MinimumLength(5)
-                .WithMessage("O País deve ter no mínimo 5 caracteres.")
+                .WithMessage("O país deve ter no mínimo 5 caracteres.")
 
                 .MaximumLength(60)
-                .WithMessage("O País deve ter no máximo 60 caracteres.");
+                .WithMessage("O país deve ter no máximo 60 caracteres.");
 
 
 
 
             RuleFor(v => v.State)
                 .NotEmpty()
-                .WithMessage("O Estado deve ser informado.")
+                .WithMessage("O estado deve ser informado.")
 
                 .MinimumLength(2)
-                .WithMessage("O Estado deve ter 2 caracteres.")
+                .WithMessage("O estado deve ter 2 caracteres.")
 
                 .MaximumLength(2)
-                .WithMessage("O Estado deve ter 2 caracteres.");
+                .WithMessage("O estado deve ter 2 caracteres.");
 
 
 
 
             RuleFor(v => v.City)
                 .NotEmpty()
-                .WithMessage("A Cidade deve ser informado.")
+                .WithMessage("A cidade deve ser informado.")
 
                 .MinimumLength(3)
-                .WithMessage("A Cidade deve ter no mínimo 3 caracteres.")
+                .WithMessage("A cidade deve ter no mínimo 3 caracteres.")
 
                 .MaximumLength(90)
-                .WithMessage("A Cidade deve ter no máximo 90 caracteres.");
+                .WithMessage("A cidade deve ter no máximo 90 caracteres.");
 
 
 
@@ -183,10 +183,10 @@ namespace UpServiceAPI.Infra.Entities
 
             RuleFor(v => v.Street)
                 .NotEmpty()
-                .WithMessage("A Rua deve ser informada.")
+                .WithMessage("A rua deve ser informada.")
 
                 .MinimumLength(3)
-                .WithMessage("A Rua deve ter no mínimo 3 caracteres.")
+                .WithMessage("A rua deve ter no mínimo 3 caracteres.")
 
                 .MaximumLength(150)
                 .WithMessage("A rua deve ter no máximo 150 caracteres.");
@@ -196,7 +196,7 @@ namespace UpServiceAPI.Infra.Entities
 
             RuleFor(v => v.HomeNumber)
                 .NotEmpty()
-                .WithMessage("O Número deve ser informado.");
+                .WithMessage("O número deve ser informado.");
         }
 
         #endregion
